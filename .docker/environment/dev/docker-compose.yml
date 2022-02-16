@@ -1,0 +1,22 @@
+version: '3.0'
+services:
+    database:
+        ports:
+            - ${PORT_DATABASE}:3306
+
+    web:
+        ports:
+            - ${PORT_HTTPD}:80
+        depends_on:
+            - database
+            - smtp
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        ports:
+            - ${PORT_PHPMYADMIN}:80
+
+    smtp:
+        image: djfarrelly/maildev:0.13.4
+        ports:
+            - ${PORT_MAILDEV}:80

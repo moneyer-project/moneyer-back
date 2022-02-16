@@ -1,0 +1,57 @@
+version: '3.0'
+services:
+    database:
+        labels:
+            - traefik.enable=false
+        networks:
+            - default
+
+    web:
+        labels:
+            - traefik.enable=true
+            - traefik.http.routers.moneyer_https.tls=true
+            - traefik.http.routers.moneyer_https.tls.certresolver=letsEncrypt
+            - traefik.http.routers.moneyer_https.rule=Host(`moneyer.gwennael-jean.ovh`)
+            - traefik.http.routers.moneyer_https.entryPoints=websecure
+            - traefik.http.routers.moneyer_http.rule=Host(`moneyer.gwennael-jean.ovh`)
+            - traefik.http.routers.moneyer_http.entryPoints=web
+            - traefik.docker.network=proxy
+        depends_on:
+            - database
+            - smtp
+        networks:
+            - default
+            - proxy
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        depends_on:
+            - database
+        environment:
+            - PMA_HOST=database
+        labels:
+            - traefik.enable=true
+            - traefik.http.routers.moneyer_phpmyadmin.rule=Host(`phpmyadmin.moneyer.gwennael-jean.ovh`)
+            - traefik.http.routers.moneyer_phpmyadmin.entryPoints=web
+            - traefik.docker.network=proxy
+        networks:
+            - default
+            - proxy
+
+    smtp:
+        image: djfarrelly/maildev:0.13.4
+        restart: always
+        labels:
+            - traefik.enable=true
+            - traefik.http.routers.moneyer_maildev.rule=Host(`maildev.moneyer.gwennael-jean.ovh`)
+            - traefik.http.routers.moneyer_maildev.entryPoints=web
+            - traefik.http.services.moneyer_maildev.loadbalancer.server.port=80
+            - traefik.docker.network=proxy
+        networks:
+            - default
+            - proxy
+
+networks:
+    proxy:
+        external:
+            name: proxy

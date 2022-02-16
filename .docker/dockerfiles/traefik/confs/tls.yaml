@@ -1,0 +1,5 @@
+tls:
+    certificates:
+        -
+            certFile: /etc/certs/moneyer.local.pem
+            keyFile: /etc/certs/moneyer.local-key.pem
