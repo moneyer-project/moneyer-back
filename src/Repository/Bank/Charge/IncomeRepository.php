@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repository\Bank;
+namespace App\Repository\Bank\Charge;
 
-use App\Entity\Bank\Income;
+use App\Entity\Bank\Charge\Income;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
