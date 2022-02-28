@@ -2,6 +2,7 @@
 
 namespace App\Entity\Bank;
 
+use App\Enum\Bank\DistributionType;
 use App\Repository\Bank\PaymentDistributionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -15,6 +16,9 @@ class PaymentDistribution
     #[ORM\Column(type: 'integer')]
     private $id;
 
+    #[ORM\Column(type: DistributionType::class)]
+    private $type;
+
     #[ORM\ManyToMany(targetEntity: Account::class)]
     private $payers;
 
@@ -26,6 +30,18 @@ class PaymentDistribution
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    public function setType($type): self
+    {
+        $this->type = $type;
+
+        return $this;
     }
 
     /**
