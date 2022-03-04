@@ -2,6 +2,8 @@
 
 namespace App\Entity\Bank;
 
+use App\Entity\Bank\Charge\Expense;
+use App\Entity\Bank\Charge\Income;
 use App\Repository\Bank\AccountRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;

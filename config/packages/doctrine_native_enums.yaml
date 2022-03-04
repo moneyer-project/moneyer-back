@@ -1,0 +1,3 @@
+doctrine_native_enums:
+    enum_types:
+        App\Enum\Bank\DistributionType: ~

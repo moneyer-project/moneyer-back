@@ -2,29 +2,28 @@
 
 namespace App\Entity\Bank;
 
-use App\Repository\Bank\IncomeRepository;
+use App\Repository\Bank\ChargeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: IncomeRepository::class)]
-class Income
+#[ORM\MappedSuperclass(repositoryClass: ChargeRepository::class)]
+abstract class Charge
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private $id;
+    protected $id;
 
     #[ORM\Column(type: 'string', length: 100)]
-    private $name;
+    protected $name;
 
     #[ORM\Column(type: 'integer')]
-    private $amount;
+    protected $amount;
 
     #[ORM\Column(type: 'date')]
-    private $date;
+    protected $date;
 
-    #[ORM\ManyToOne(targetEntity: Account::class, inversedBy: 'incomes')]
-    #[ORM\JoinColumn(nullable: false)]
-    private $account;
+    #[ORM\OneToOne(targetEntity: PaymentDistribution::class, cascade: ['persist', 'remove'])]
+    private $distribution;
 
     public function getId(): ?int
     {
@@ -67,14 +66,14 @@ class Income
         return $this;
     }
 
-    public function getAccount(): ?Account
+    public function getDistribution(): ?PaymentDistribution
     {
-        return $this->account;
+        return $this->distribution;
     }
 
-    public function setAccount(?Account $account): self
+    public function setDistribution(?PaymentDistribution $distribution): self
     {
-        $this->account = $account;
+        $this->distribution = $distribution;
 
         return $this;
     }
