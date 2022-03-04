@@ -10,9 +10,9 @@ class TransferList implements \Iterator, \Countable
 
     private int $position;
 
-    public function __construct()
+    public function __construct(?ArrayCollection $transfers = null)
     {
-        $this->collection = new ArrayCollection();
+        $this->collection = $transfers ?? new ArrayCollection();
         $this->position = 0;
     }
 
@@ -54,5 +54,20 @@ class TransferList implements \Iterator, \Countable
     public function count(): int
     {
         return $this->collection->count();
+    }
+
+    public function first(): Transfer
+    {
+        return $this->collection->first();
+    }
+
+    public function filter(\Closure $p): TransferList
+    {
+        return $this->createFrom($this->collection->filter($p));
+    }
+
+    protected function createFrom(ArrayCollection $elements): TransferList
+    {
+        return new static($elements);
     }
 }
