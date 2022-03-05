@@ -4,6 +4,7 @@ namespace App\Entity\Bank;
 
 use App\Entity\Bank\Charge\Expense;
 use App\Entity\Bank\Charge\Income;
+use App\Entity\User;
 use App\Repository\Bank\AccountRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -16,6 +17,9 @@ class Account
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
+
+    #[ORM\OneToOne(mappedBy: 'account', targetEntity: User::class, cascade: ['persist', 'remove'])]
+    private $user;
 
     #[ORM\Column(type: 'string', length: 100)]
     private $name;
@@ -35,6 +39,22 @@ class Account
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): self
+    {
+        if ($user->getAccount() !== $this) {
+            $user->setAccount($this);
+        }
+
+        $this->user = $user;
+
+        return $this;
     }
 
     public function getName(): ?string

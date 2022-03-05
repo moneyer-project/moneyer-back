@@ -28,13 +28,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string')]
     private $password;
 
-    #[ORM\ManyToMany(targetEntity: Account::class)]
-    private $accounts;
-
-    public function __construct()
-    {
-        $this->accounts = new ArrayCollection();
-    }
+    #[ORM\OneToOne(inversedBy: 'user', targetEntity: Account::class, cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private $account;
 
     public function getId(): ?int
     {
@@ -97,26 +93,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Account>
-     */
-    public function getAccounts(): Collection
+    public function getAccount(): ?Account
     {
-        return $this->accounts;
+        return $this->account;
     }
 
-    public function addAccount(Account $account): self
+    public function setAccount(Account $account): self
     {
-        if (!$this->accounts->contains($account)) {
-            $this->accounts[] = $account;
-        }
-
-        return $this;
-    }
-
-    public function removeAccount(Account $account): self
-    {
-        $this->accounts->removeElement($account);
+        $this->account = $account;
 
         return $this;
     }
