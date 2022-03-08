@@ -12,6 +12,7 @@ $primary: darken(#428bca, 20%);
 
 // Import elements
 @import "~bootstrap/scss/type";
+@import "elements/screen";
 
 // Import objects
 @import "~bootstrap/scss/containers";
@@ -21,8 +22,11 @@ $primary: darken(#428bca, 20%);
 @import "~bootstrap/scss/buttons";
 
 // Import components
+@import "~bootstrap/scss/nav";
 @import "~bootstrap/scss/navbar";
 @import "components/jumbotron";
+@import "components/nav";
 
 // Import utilities
+@import "~bootstrap/scss/helpers/position";
 @import "~bootstrap/scss/utilities/api";
