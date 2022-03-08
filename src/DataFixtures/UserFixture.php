@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Bank\Account;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -14,7 +15,6 @@ class UserFixture extends Fixture
         private UserPasswordHasherInterface $userPasswordHasher
     )
     {
-        parent::__construct();
     }
 
     public function load(ObjectManager $manager): void
@@ -25,6 +25,7 @@ class UserFixture extends Fixture
             $user
                 ->setEmail($key)
                 ->setPassword($this->userPasswordHasher->hashPassword($user, $value['password']))
+                ->setAccount((new Account())->setName($key))
             ;
 
             $manager->persist($user);
