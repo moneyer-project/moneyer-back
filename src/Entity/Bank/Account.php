@@ -128,23 +128,4 @@ class Account
 
         return $this;
     }
-
-    public function getBalanceOfMonth(\DateTime $date): float
-    {
-        $balance = 0;
-
-        foreach ($this->getIncomes() as $income) {
-            if ($income->getDate()->format('YYYY-MM') === $date->format('YYYY-MM')) {
-                $balance += $income->getAmount();
-            }
-        }
-
-        foreach ($this->getExpenses() as $expense) {
-            if ($expense->getDate()->format('YYYY-MM') === $date->format('YYYY-MM')) {
-                $balance -= $expense->getAmount();
-            }
-        }
-
-        return $balance;
-    }
 }

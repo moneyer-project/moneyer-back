@@ -3,6 +3,7 @@
 namespace App\Repository\Bank\Charge;
 
 use App\Entity\Bank\Charge\Expense;
+use App\Repository\Bank\ChargeRepository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -12,7 +13,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Expense[]    findAll()
  * @method Expense[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ExpenseRepository extends ServiceEntityRepository
+class ExpenseRepository extends ChargeRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
