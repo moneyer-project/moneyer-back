@@ -27,6 +27,7 @@ $primary: darken(#428bca, 20%);
 @import "~bootstrap/scss/navbar";
 @import "components/jumbotron";
 @import "components/nav";
+@import "components/monthpicker";
 
 // Import utilities
 @import "~bootstrap/scss/helpers/position";
