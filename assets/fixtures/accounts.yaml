@@ -1,0 +1,31 @@
+---
+
+Account > gwennael.jean@mail.test:
+    user: gwennael.jean@mail.test
+    name: Gwennael Jean
+    incomes:
+        -
+            name: "Salary"
+            amount: 2000
+            date: "Y-M-01::-1 month"
+        -
+            name: "Salary"
+            amount: 2000
+            date: "Y-M-01"
+        -
+            name: "Salary"
+            amount: 2000
+            date: "Y-M-01::+1 month"
+    expenses:
+        -
+            name: "Rent"
+            amount: 750
+            date: "Y-M-01::-1 month"
+        -
+            name: "Rent"
+            amount: 750
+            date: "Y-M-01"
+        -
+            name: "Rent"
+            amount: 750
+            date: "Y-M-01::+1 month"

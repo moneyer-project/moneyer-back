@@ -29,6 +29,8 @@ class UserFixture extends Fixture
             ;
 
             $manager->persist($user);
+
+            $this->addReference($key, $user);
         }
 
         $manager->flush();
