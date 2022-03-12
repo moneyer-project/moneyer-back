@@ -24,9 +24,11 @@ class ChargeRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.account = :account')
-            ->andWhere('c.date = :date')
+            ->andWhere('MONTH(c.date) = :month')
+            ->andWhere('YEAR(c.date) = :year')
             ->setParameter('account', $account)
-            ->setParameter('date', $date)
+            ->setParameter('month', $date->format('m'))
+            ->setParameter('year', $date->format('Y'))
             ->getQuery()
             ->getResult()
         ;

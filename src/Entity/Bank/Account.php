@@ -24,10 +24,10 @@ class Account
     #[ORM\Column(type: 'string', length: 100)]
     private $name;
 
-    #[ORM\OneToMany(mappedBy: 'account', targetEntity: Income::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'account', targetEntity: Income::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
     private $incomes;
 
-    #[ORM\OneToMany(mappedBy: 'account', targetEntity: Expense::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'account', targetEntity: Expense::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
     private $expenses;
 
     public function __construct()
