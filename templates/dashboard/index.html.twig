@@ -3,17 +3,22 @@
 {% block title %}Hello DashboardController!{% endblock %}
 
 {% block body %}
-    <div data-controller="dashboard">
+    <div data-controller="dashboard"
+         data-action="monthpicker:date-change->dashboard#load"
+         data-dashboard-url-value="{{ path('app_api_account') }}">
         {% include "@component/monthpicker.html.twig" with { date } only %}
-        <div class="row">
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                <div class="card" data-controller="user-account">
-                    <div class="card-body">
-                        <div class="card-subtitle mb-2 text-muted">My account</div>
-                        <div class="card-title fs-4">-</div>
+
+        {% if account is defined %}
+            <div class="row">
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <div class="card" data-action="app:load->account#load">
+                        <div class="card-body">
+                            <div class="card-subtitle mb-2 text-muted">My account</div>
+                            <div class="card-title fs-4" data-dashboard-target="account">-</div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        {% endif %}
     </div>
 {% endblock %}

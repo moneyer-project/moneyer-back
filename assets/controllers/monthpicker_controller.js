@@ -1,11 +1,11 @@
-import { Controller } from '@hotwired/stimulus';
+import { Controller } from '@hotwired/stimulus'
+import { useApplication, useDispatch } from 'stimulus-use'
 
 export default class extends Controller {
 
     static targets = ['summary', 'month'];
 
     static values = {
-        url: String,
         year: {type: Number, default: (new Date()).getFullYear()},
         month: {type: Number, default: (new Date()).getMonth() + 1},
     };
@@ -15,6 +15,8 @@ export default class extends Controller {
     static classes = ["active"];
 
     connect() {
+        useApplication(this);
+        useDispatch(this, {debug: true});
         this.summaryTarget.textContent = `${this.month[this.monthValue - 1]} ${this.yearValue}`;
     }
 
@@ -23,8 +25,7 @@ export default class extends Controller {
         this.summaryTarget.textContent = `${this.month[this.monthValue - 1]} ${this.yearValue}`;
 
         this.updateMonthClass();
-
-        this.load();
+        this.dispatchEventDateChange();
     }
 
     updateMonthClass() {
@@ -35,10 +36,10 @@ export default class extends Controller {
         });
     }
 
-    load() {
-        console.log('load', this.monthValue, this.yearValue);
-        fetch(this.urlValue)
-            .then(response => response.text())
-            .then(json => console.log(json));
+    dispatchEventDateChange() {
+        this.dispatch('date-change', {
+            month: this.monthValue,
+            year: this.yearValue
+        })
     }
 }

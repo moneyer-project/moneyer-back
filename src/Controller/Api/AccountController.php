@@ -3,6 +3,7 @@
 namespace App\Controller\Api;
 
 use App\Entity\User;
+use App\Helper\DateTimeHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,7 +22,7 @@ class AccountController extends AbstractController
 
         return $this->json([
             'account' => $serializer->normalize($this->getUser()->getAccount(), null, [
-                'date' => new \DateTime(),
+                'date' => DateTimeHelper::getByRequest($request),
                 AbstractNormalizer::ATTRIBUTES => [
                     'name',
                 ],
