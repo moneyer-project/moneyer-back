@@ -30,7 +30,7 @@ class ChargeDistributionFixture extends Fixture implements DependentFixtureInter
 
                 foreach ($value['expenses'] as $expenseData) {
                     /** @var Expense $expense */
-                    $expense = $this->getReference(sprintf('%s%s%s', $value['user'], $expenseData['name'], $expenseData['date']));
+                    $expense = $this->getReference(sprintf('%s%s%s', $key, $expenseData['name'], $expenseData['date']));
 
                     $distribution = (new PaymentDistribution())
                         ->setType(DistributionType::get($expenseData['distribution']['type']));

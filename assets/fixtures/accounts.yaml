@@ -18,8 +18,8 @@ Account > gwennael.jean@mail.test:
             date: "Y-M-01::+1 month"
     expenses:
         -
-            name: "Rent"
-            amount: 750
+            name: "Vehicle insurance"
+            amount: 110
             date: "Y-M-01::-1 month"
             distribution:
                 type: "FiftyFifty"
@@ -27,8 +27,8 @@ Account > gwennael.jean@mail.test:
                     - Account > gwennael.jean@mail.test
                     - Account > laura.lematelot@mail.test
         -
-            name: "Rent"
-            amount: 750
+            name: "Vehicle insurance"
+            amount: 110
             date: "Y-M-01"
             distribution:
                 type: "FiftyFifty"
@@ -36,8 +36,8 @@ Account > gwennael.jean@mail.test:
                     - Account > gwennael.jean@mail.test
                     - Account > laura.lematelot@mail.test
         -
-            name: "Rent"
-            amount: 750
+            name: "Vehicle insurance"
+            amount: 110
             date: "Y-M-01::+1 month"
             distribution:
                 type: "FiftyFifty"
@@ -63,8 +63,39 @@ Account > laura.lematelot@mail.test:
             date: "Y-M-01::+1 month"
     expenses:
         -
+            name: "Vehicle insurance"
+            amount: 60
+            date: "Y-M-01::-1 month"
+            distribution:
+                type: "FiftyFifty"
+                payers:
+                    - Account > laura.lematelot@mail.test
+                    - Account > gwennael.jean@mail.test
+        -
+            name: "Vehicle insurance"
+            amount: 60
+            date: "Y-M-01"
+            distribution:
+                type: "FiftyFifty"
+                payers:
+                    - Account > laura.lematelot@mail.test
+                    - Account > gwennael.jean@mail.test
+        -
+            name: "Vehicle insurance"
+            amount: 60
+            date: "Y-M-01::+1 month"
+            distribution:
+                type: "FiftyFifty"
+                payers:
+                    - Account > laura.lematelot@mail.test
+                    - Account > gwennael.jean@mail.test
+
+Account > gwennael.jean@mail.test / laura.lematelot@mail.test:
+    name: Joint account
+    expenses:
+        -
             name: "Rent"
-            amount: 200
+            amount: 750
             date: "Y-M-01::-1 month"
             distribution:
                 type: "FiftyFifty"
@@ -73,7 +104,7 @@ Account > laura.lematelot@mail.test:
                     - Account > gwennael.jean@mail.test
         -
             name: "Rent"
-            amount: 200
+            amount: 750
             date: "Y-M-01"
             distribution:
                 type: "FiftyFifty"
@@ -82,7 +113,7 @@ Account > laura.lematelot@mail.test:
                     - Account > gwennael.jean@mail.test
         -
             name: "Rent"
-            amount: 200
+            amount: 750
             date: "Y-M-01::+1 month"
             distribution:
                 type: "FiftyFifty"

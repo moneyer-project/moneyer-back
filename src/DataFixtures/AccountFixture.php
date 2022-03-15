@@ -22,38 +22,42 @@ class AccountFixture extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager): void
     {
         foreach ($this->getData() as $key => $value) {
-            $user = $this->getReference($value['user']);
+            $account = isset($value['user']) && $this->getReference($value['user']) instanceof User
+                ? $this->getReference($value['user'])->getAccount()
+                : new Account();
 
-            if ($user instanceof User && null !== $user->getAccount()) {
-                $user->getAccount()
-                    ->setName($value['name']);
+            $account
+                ->setName($value['name']);
 
+            if (isset($value['incomes'])) {
                 foreach ($value['incomes'] as $incomeData) {
                     $income = (new Income())
                         ->setName($incomeData['name'])
                         ->setAmount($incomeData['amount'])
                         ->setDate($this->getDate($incomeData['date']));
 
-                    $user->getAccount()->addIncome($income);
+                    $account->addIncome($income);
 
-                    $this->addReference(sprintf('%s%s%s', $value['user'], $incomeData['name'], $incomeData['date']), $income);
+                    $this->addReference(sprintf('%s%s%s', $key, $incomeData['name'], $incomeData['date']), $income);
                 }
+            }
 
+            if (isset($value['expenses'])) {
                 foreach ($value['expenses'] as $expenseData) {
                     $expense = (new Expense())
                         ->setName($expenseData['name'])
                         ->setAmount($expenseData['amount'])
                         ->setDate($this->getDate($expenseData['date']));
 
-                    $user->getAccount()->addExpense($expense);
+                    $account->addExpense($expense);
 
-                    $this->addReference(sprintf('%s%s%s', $value['user'], $expenseData['name'], $expenseData['date']), $expense);
+                    $this->addReference(sprintf('%s%s%s', $key, $expenseData['name'], $expenseData['date']), $expense);
                 }
             }
 
-            $manager->persist($user->getAccount());
+            $manager->persist($account);
 
-            $this->addReference($key, $user->getAccount());
+            $this->addReference($key, $account);
         }
 
         $manager->flush();
