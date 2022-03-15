@@ -21,11 +21,71 @@ Account > gwennael.jean@mail.test:
             name: "Rent"
             amount: 750
             date: "Y-M-01::-1 month"
+            distribution:
+                type: "FiftyFifty"
+                payers:
+                    - Account > gwennael.jean@mail.test
+                    - Account > laura.lematelot@mail.test
         -
             name: "Rent"
             amount: 750
             date: "Y-M-01"
+            distribution:
+                type: "FiftyFifty"
+                payers:
+                    - Account > gwennael.jean@mail.test
+                    - Account > laura.lematelot@mail.test
         -
             name: "Rent"
             amount: 750
             date: "Y-M-01::+1 month"
+            distribution:
+                type: "FiftyFifty"
+                payers:
+                    - Account > gwennael.jean@mail.test
+                    - Account > laura.lematelot@mail.test
+
+Account > laura.lematelot@mail.test:
+    user: laura.lematelot@mail.test
+    name: Laura Lematelot
+    incomes:
+        -
+            name: "Salary"
+            amount: 1150
+            date: "Y-M-01::-1 month"
+        -
+            name: "Salary"
+            amount: 1150
+            date: "Y-M-01"
+        -
+            name: "Salary"
+            amount: 1150
+            date: "Y-M-01::+1 month"
+    expenses:
+        -
+            name: "Rent"
+            amount: 200
+            date: "Y-M-01::-1 month"
+            distribution:
+                type: "FiftyFifty"
+                payers:
+                    - Account > laura.lematelot@mail.test
+                    - Account > gwennael.jean@mail.test
+        -
+            name: "Rent"
+            amount: 200
+            date: "Y-M-01"
+            distribution:
+                type: "FiftyFifty"
+                payers:
+                    - Account > laura.lematelot@mail.test
+                    - Account > gwennael.jean@mail.test
+        -
+            name: "Rent"
+            amount: 200
+            date: "Y-M-01::+1 month"
+            distribution:
+                type: "FiftyFifty"
+                payers:
+                    - Account > laura.lematelot@mail.test
+                    - Account > gwennael.jean@mail.test

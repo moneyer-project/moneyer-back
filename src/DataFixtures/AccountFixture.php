@@ -35,6 +35,8 @@ class AccountFixture extends Fixture implements DependentFixtureInterface
                         ->setDate($this->getDate($incomeData['date']));
 
                     $user->getAccount()->addIncome($income);
+
+                    $this->addReference(sprintf('%s%s%s', $value['user'], $incomeData['name'], $incomeData['date']), $income);
                 }
 
                 foreach ($value['expenses'] as $expenseData) {
@@ -44,6 +46,8 @@ class AccountFixture extends Fixture implements DependentFixtureInterface
                         ->setDate($this->getDate($expenseData['date']));
 
                     $user->getAccount()->addExpense($expense);
+
+                    $this->addReference(sprintf('%s%s%s', $value['user'], $expenseData['name'], $expenseData['date']), $expense);
                 }
             }
 
