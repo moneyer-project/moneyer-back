@@ -10,6 +10,7 @@ use App\Service\Transfer\Distributor;
 use App\Service\Transfer\PotRepartitor;
 use App\Service\Transfer\Transfer;
 use App\Service\TransferComputer;
+use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\TestCase;
 
 class TransferComputerTest extends TestCase
@@ -126,11 +127,11 @@ class TransferComputerTest extends TestCase
             ->addExpense($expense30)
         ;
 
-        $transfers = $this->transferComputer->computeForMonth($date, [
+        $transfers = $this->transferComputer->computeForMonth($date, new ArrayCollection([
             $account1,
             $account2,
             $account3,
-        ]);
+        ]));
 
         $this->assertCount(2, $transfers);
 
