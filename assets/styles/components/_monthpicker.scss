@@ -1,0 +1,59 @@
+.monthpicker {
+  text-align: center;
+
+  details {
+    display: inline;
+    position: relative;
+  }
+
+  details > summary:focus {
+    outline: none;
+  }
+
+  details > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  details > summary {
+    @extend .d-inline-block;
+    @extend .mb-1;
+    @extend .p-2;
+    @extend .border;
+    @extend .rounded;
+  }
+
+  details > * + * {
+    display: none;
+  }
+
+  details > summary + * {
+    @extend .position-absolute;
+    @extend .d-block;
+    @extend .border;
+    @extend .rounded;
+    @extend .p-1;
+    top: 100%;
+    right: 50%;
+    transform: translateX(50%);
+    z-index: 1;
+    width: 330px;
+    background: white;
+  }
+
+  .month-choices {
+
+    button {
+      @extend .my-1;
+      @extend .py-1;
+      background-color: inherit;
+      border: none;
+      display: block;
+      width: 100%;
+
+      &.active {
+        @extend .rounded;
+        background-color: $gray-300;
+      }
+    }
+  }
+}

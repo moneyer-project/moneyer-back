@@ -2,6 +2,7 @@
 
 namespace App\Repository\Bank;
 
+use App\Entity\Bank\Account;
 use App\Entity\Bank\Charge;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -14,27 +15,24 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ChargeRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, string $entityClass = Charge::class)
     {
-        parent::__construct($registry, Charge::class);
+        parent::__construct($registry, $entityClass);
     }
 
-    // /**
-    //  * @return Charge[] Returns an array of Charge objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findInMonth(Account $account, \DateTime $date)
     {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('e.id', 'ASC')
-            ->setMaxResults(10)
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.account = :account')
+            ->andWhere('MONTH(c.date) = :month')
+            ->andWhere('YEAR(c.date) = :year')
+            ->setParameter('account', $account)
+            ->setParameter('month', $date->format('m'))
+            ->setParameter('year', $date->format('Y'))
             ->getQuery()
             ->getResult()
         ;
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?Charge

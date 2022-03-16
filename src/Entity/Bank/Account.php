@@ -9,6 +9,8 @@ use App\Repository\Bank\AccountRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
 #[ORM\Entity(repositoryClass: AccountRepository::class)]
 class Account
@@ -16,18 +18,23 @@ class Account
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(['account:default'])]
     private $id;
 
     #[ORM\OneToOne(mappedBy: 'account', targetEntity: User::class, cascade: ['persist', 'remove'])]
+    #[Ignore]
     private $user;
 
     #[ORM\Column(type: 'string', length: 100)]
+    #[Groups(['account:default'])]
     private $name;
 
-    #[ORM\OneToMany(mappedBy: 'account', targetEntity: Income::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'account', targetEntity: Income::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
+    #[Ignore]
     private $incomes;
 
-    #[ORM\OneToMany(mappedBy: 'account', targetEntity: Expense::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'account', targetEntity: Expense::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
+    #[Ignore]
     private $expenses;
 
     public function __construct()
@@ -127,24 +134,5 @@ class Account
         }
 
         return $this;
-    }
-
-    public function getBalanceOfMonth(\DateTime $date): float
-    {
-        $balance = 0;
-
-        foreach ($this->getIncomes() as $income) {
-            if ($income->getDate()->format('YYYY-MM') === $date->format('YYYY-MM')) {
-                $balance += $income->getAmount();
-            }
-        }
-
-        foreach ($this->getExpenses() as $expense) {
-            if ($expense->getDate()->format('YYYY-MM') === $date->format('YYYY-MM')) {
-                $balance -= $expense->getAmount();
-            }
-        }
-
-        return $balance;
     }
 }
