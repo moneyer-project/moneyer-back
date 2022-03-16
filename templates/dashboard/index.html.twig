@@ -10,48 +10,31 @@
         {% include "@component/monthpicker.html.twig" with { date } only %}
 
         {% if account is defined %}
-            <div class="mb-3">
-                <div class="row">
-                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                        <div class="card"
-                             data-controller="account"
-                             data-account-entity-value="{}"
-                             data-dashboard-target="account">
-                            <div class="card-body">
-                                <div class="card-subtitle mb-2 text-muted">{{ account.name }}</div>
-                                <div class="card-title fs-4" data-account-target="balance"></div>
-                                <div class="d-flex justify-content-between fs-6">
-                                    <div class="text-success" data-account-target="income"></div>
-                                    <div class="text-danger" data-account-target="expense"></div>
-                                </div>
-                            </div>
-                        </div>
+            <div class="row">
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <div class="mb-3">
+                        {% include "@component/cards/account-card.html.twig" with { account, target: 'account' } only %}
                     </div>
                 </div>
             </div>
         {% endif %}
 
-        <div class="mb-3">
+        {% if account is defined %}
             <div class="row">
                 {% for externalAccount in externalAccounts %}
                     <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                        <div class="card"
-                             data-controller="account"
-                             data-account-entity-value="{}"
-                             data-dashboard-target="externalAccount"
-                             data-id="{{ externalAccount.id }}">
-                            <div class="card-body">
-                                <div class="card-subtitle mb-2 text-muted">{{ externalAccount.name }}</div>
-                                <div class="card-title fs-4" data-account-target="balance"></div>
-                                <div class="d-flex justify-content-between fs-6">
-                                    <div class="text-success" data-account-target="income"></div>
-                                    <div class="text-danger" data-account-target="expense"></div>
-                                </div>
-                            </div>
+                        <div class="mb-3">
+                            {% include "@component/cards/account-card.html.twig" with { account: externalAccount, target: 'externalAccount' } only %}
                         </div>
                     </div>
                 {% endfor %}
             </div>
-        </div>
+        {% endif %}
+
+        {% if transfers is defined %}
+            <div class="mb-3">
+                {% include "@component/tables/transfers-table.html.twig" with { transfers } only %}
+            </div>
+        {% endif %}
     </div>
 {% endblock %}

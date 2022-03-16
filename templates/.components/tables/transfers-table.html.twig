@@ -1,0 +1,18 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th>From</th>
+            <th>To</th>
+            <th>Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for transfer in transfers %}
+            <tr>
+                <td>{{ transfer.from.name }}</td>
+                <td>{{ transfer.to.name }}</td>
+                <td>{{ transfer.amount }}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

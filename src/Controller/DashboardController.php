@@ -6,6 +6,7 @@ use App\Entity\Bank\Account;
 use App\Entity\User;
 use App\Helper\DateTimeHelper;
 use App\Repository\Bank\AccountRepository;
+use App\Service\Transfer\TransferList;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,6 +28,7 @@ class DashboardController extends AbstractController
             'date' => DateTimeHelper::getByRequest($request),
             'account' => $accounts->filter(fn (Account $account) => $account->getUser() === $this->getUser())->first(),
             'externalAccounts' => $accounts->filter(fn (Account $account) => $account->getUser() !== $this->getUser()),
+            'transfers' => new TransferList(),
         ]);
     }
 }
