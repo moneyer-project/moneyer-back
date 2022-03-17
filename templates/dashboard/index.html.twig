@@ -3,18 +3,14 @@
 {% block title %}Hello DashboardController!{% endblock %}
 
 {% block body %}
-    <div data-controller="dashboard"
-         data-action="monthpicker:date-change->dashboard#load"
-         data-dashboard-url-accounts-value="{{ path('app_api_accounts') }}"
-         data-dashboard-url-transfers-value="{{ path('app_api_transfers') }}">
-
+    <div>
         {% include "@component/monthpicker.html.twig" with { date } only %}
 
         {% if account is defined %}
             <div class="row">
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                     <div class="mb-3">
-                        {% include "@component/cards/account-card.html.twig" with { account, target: 'account' } only %}
+                        {% include "@component/cards/account-card.html.twig" with { account } only %}
                     </div>
                 </div>
             </div>
@@ -25,17 +21,15 @@
                 {% for externalAccount in externalAccounts %}
                     <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                         <div class="mb-3">
-                            {% include "@component/cards/account-card.html.twig" with { account: externalAccount, target: 'externalAccount' } only %}
+                            {% include "@component/cards/account-card.html.twig" with { account: externalAccount } only %}
                         </div>
                     </div>
                 {% endfor %}
             </div>
         {% endif %}
 
-        {% if transfers is defined %}
-            <div class="mb-3">
-                {% include "@component/tables/transfers-table.html.twig" with { transfers } only %}
-            </div>
-        {% endif %}
+        <div class="mb-3">
+            {% include "@component/tables/transfers-table.html.twig" with { transfers } only %}
+        </div>
     </div>
 {% endblock %}

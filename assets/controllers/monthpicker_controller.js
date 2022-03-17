@@ -1,5 +1,4 @@
 import { Controller } from '@hotwired/stimulus'
-import { useApplication, useDispatch } from 'stimulus-use'
 
 export default class extends Controller {
 
@@ -15,8 +14,6 @@ export default class extends Controller {
     static classes = ["active"];
 
     connect() {
-        useApplication(this);
-        useDispatch(this, {debug: true});
         this.summaryTarget.textContent = `${this.month[this.monthValue - 1]} ${this.yearValue}`;
     }
 
@@ -37,9 +34,6 @@ export default class extends Controller {
     }
 
     dispatchEventDateChange() {
-        this.dispatch('date-change', {
-            month: this.monthValue,
-            year: this.yearValue
-        })
+
     }
 }
