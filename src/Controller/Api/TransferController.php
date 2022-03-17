@@ -6,6 +6,7 @@ use App\Entity\Bank\Account;
 use App\Entity\User;
 use App\Helper\DateTimeHelper;
 use App\Repository\Bank\AccountRepository;
+use App\Service\TransferComputer;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,10 +15,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 
-class AccountController extends AbstractController
+class TransferController extends AbstractController
 {
-    #[Route('/api/accounts', name: 'app_api_accounts')]
-    public function index(Request $request, SerializerInterface $serializer, AccountRepository $accountRepository): Response
+    #[Route('/api/transfers', name: 'app_api_transfers')]
+    public function index(Request $request, SerializerInterface $serializer, AccountRepository $accountRepository, TransferComputer $transferComputer): Response
     {
         if (!$this->getUser() instanceof User) {
             throw $this->createAccessDeniedException();
@@ -25,18 +26,13 @@ class AccountController extends AbstractController
 
         $accounts = new ArrayCollection($accountRepository->findByUser($this->getUser()));
 
-        $account = $accounts->filter(fn (Account $account) => $account->getUser() === $this->getUser())->first();
-        $externalAccounts = $accounts->filter(fn (Account $account) => $account->getUser() !== $this->getUser());
-
-
+        $transfers = $transferComputer->computeForMonth(DateTimeHelper::getByRequest($request), $accounts);
 
         return $this->json($serializer->normalize([
-            'account' => $account,
-            'externalAccounts' => $externalAccounts,
+            'transfers' => $transfers
         ], null, [
-            'date' => DateTimeHelper::getByRequest($request),
             AbstractNormalizer::GROUPS => [
-                'account:default',
+                'transfer:default',
             ],
         ]));
     }

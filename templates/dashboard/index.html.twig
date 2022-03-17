@@ -5,7 +5,8 @@
 {% block body %}
     <div data-controller="dashboard"
          data-action="monthpicker:date-change->dashboard#load"
-         data-dashboard-url-value="{{ path('app_api_account') }}">
+         data-dashboard-url-accounts-value="{{ path('app_api_accounts') }}"
+         data-dashboard-url-transfers-value="{{ path('app_api_transfers') }}">
 
         {% include "@component/monthpicker.html.twig" with { date } only %}
 

@@ -6,19 +6,22 @@ export default class extends Controller {
     static targets = ['account', 'externalAccount'];
 
     static values = {
-        url: String
+        urlAccounts: String,
+        urlTransfers: String,
     };
 
     connect() {
         this.loadAccounts();
+        this.loadTransfers();
     }
 
     load(e) {
         this.loadAccounts(e);
+        this.loadTransfers(e);
     }
 
     loadAccounts(e) {
-        let url = e === undefined ? this.urlValue : this.urlValue + '?' + new URLSearchParams({
+        let url = e === undefined ? this.urlAccountsValue : this.urlAccountsValue + '?' + new URLSearchParams({
             month: e.detail.month,
             year: e.detail.year
         });
@@ -29,6 +32,20 @@ export default class extends Controller {
             .then(json => {
                 this.feedAccount(json.account);
                 this.feedExternalAccounts(Object.values(json.externalAccounts));
+            });
+    }
+
+    loadTransfers(e) {
+        let url = e === undefined ? this.urlTransfersValue : this.urlTransfersValue + '?' + new URLSearchParams({
+            month: e.detail.month,
+            year: e.detail.year
+        });
+
+        fetch(url)
+            .then(response => response.text())
+            .then(text => JSON.parse(text))
+            .then(json => {
+                this.feedTransfers(json.transfers);
             });
     }
 
@@ -48,5 +65,9 @@ export default class extends Controller {
                 element.setAttribute('data-account-entity-value', JSON.stringify(account));
             }
         })
+    }
+
+    feedTransfers(transfers) {
+        console.log(transfers);
     }
 }
