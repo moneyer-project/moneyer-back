@@ -11,7 +11,7 @@
         <tr>
             <td>{{ transfer.from.name }}</td>
             <td>{{ transfer.to.name }}</td>
-            <td>{{ transfer.amount }}</td>
+            <td>{{ transfer.amount | format_currency('EUR') }}</td>
         </tr>
     {% endfor %}
     </tbody>

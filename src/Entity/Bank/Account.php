@@ -135,4 +135,31 @@ class Account
 
         return $this;
     }
+
+    public function getBalance(): int
+    {
+        return $this->getIncomeSum() - $this->getExpenseSum();
+    }
+
+    public function getIncomeSum(): int
+    {
+        $total = 0;
+
+        foreach ($this->getIncomes() as $income) {
+            $total += $income->getAmount();
+        }
+
+        return $total;
+    }
+
+    public function getExpenseSum(): int
+    {
+        $total = 0;
+
+        foreach ($this->getExpenses() as $expense) {
+            $total += $expense->getAmount();
+        }
+
+        return $total;
+    }
 }

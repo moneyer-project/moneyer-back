@@ -1,40 +1,45 @@
-
-{% set months = [
-    {label: 'January', value: 1},
-    {label: 'February', value: 2},
-    {label: 'March', value: 3},
-    {label: 'April', value: 4},
-    {label: 'May', value: 5},
-    {label: 'June', value: 6},
-    {label: 'July', value: 7},
-    {label: 'August', value: 8},
-    {label: 'September', value: 9},
-    {label: 'October', value: 10},
-    {label: 'November', value: 11},
-    {label: 'December', value: 12},
-] %}
+{% set months = {
+    1: 'January',
+    2: 'February',
+    3: 'March',
+    4: 'April',
+    5: 'May',
+    6: 'June',
+    7: 'July',
+    8: 'August',
+    9: 'September',
+    10: 'October',
+    11: 'November',
+    12: 'December'
+} %}
 
 <div class="monthpicker"
      data-controller="monthpicker"
+     data-monthpicker-month-label-value="{{ months[(date | date('m') | number_format)] }}"
+     data-monthpicker-month-value="{{ date | date('m') }}"
+     data-monthpicker-year-value="{{ date | date('Y') }}"
      data-monthpicker-active-class="active">
     <details>
         <summary data-monthpicker-target="summary"></summary>
         <div class="container">
             <div class="year-choices">
-                <select>
-                    <option data-monthpicker-target="year">2021</option>
-                    <option data-monthpicker-target="year">2022</option>
-                    <option data-monthpicker-target="year">2023</option>
+                <select data-monthpicker-target="yearSelect" data-action="change->monthpicker#changeYear">
+                    {% for year in range(date | date('Y') - 5, date | date('Y') + 5) %}
+                        <option data-monthpicker-target="year" value="{{ year }}">
+                            {{ year }}
+                        </option>
+                    {% endfor %} %}
                 </select>
             </div>
-            <div class="month-choices" data-monthpicker-target="months">
+            <div class="month-choices">
                 <div class="row">
-                    {% for month in months %}
+                    {% for value, label in months %}
                         <div class="col-4">
-                            <button data-action="monthpicker#changeMonth"
+                            <button data-action="click->monthpicker#changeMonth"
                                     data-monthpicker-target="month"
-                                    data-monthpicker-month-param="{{ month.value }}">
-                                {{ month.label }}
+                                    data-monthpicker-label-param="{{ label }}"
+                                    data-monthpicker-value-param="{{ value }}">
+                                {{ label }}
                             </button>
                         </div>
                     {% endfor %}

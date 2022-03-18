@@ -25,7 +25,7 @@ class DashboardController extends AbstractController
 
         $date = DateTimeHelper::getByRequest($request);
 
-        $accounts = new ArrayCollection($accountRepository->findByUser($this->getUser()));
+        $accounts = new ArrayCollection($accountRepository->findByUser($this->getUser(), $date));
 
         $transfers = $transferComputer->computeForMonth($date, $accounts);
 
