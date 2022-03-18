@@ -1,6 +1,7 @@
 $primary: darken(#428bca, 20%);
 
 // Import settings and tools
+@import "~feathericon/build/scss/feathericon";
 @import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
 @import "~bootstrap/scss/mixins";
