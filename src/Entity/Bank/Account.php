@@ -18,7 +18,7 @@ class Account
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(['account:default'])]
+    #[Groups(['account:default', 'transfer:default'])]
     private $id;
 
     #[ORM\OneToOne(mappedBy: 'account', targetEntity: User::class, cascade: ['persist', 'remove'])]
@@ -26,7 +26,7 @@ class Account
     private $user;
 
     #[ORM\Column(type: 'string', length: 100)]
-    #[Groups(['account:default'])]
+    #[Groups(['account:default', 'transfer:default'])]
     private $name;
 
     #[ORM\OneToMany(mappedBy: 'account', targetEntity: Income::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
@@ -134,5 +134,32 @@ class Account
         }
 
         return $this;
+    }
+
+    public function getBalance(): int
+    {
+        return $this->getIncomeSum() - $this->getExpenseSum();
+    }
+
+    public function getIncomeSum(): int
+    {
+        $total = 0;
+
+        foreach ($this->getIncomes() as $income) {
+            $total += $income->getAmount();
+        }
+
+        return $total;
+    }
+
+    public function getExpenseSum(): int
+    {
+        $total = 0;
+
+        foreach ($this->getExpenses() as $expense) {
+            $total += $expense->getAmount();
+        }
+
+        return $total;
     }
 }

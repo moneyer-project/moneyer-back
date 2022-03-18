@@ -3,13 +3,17 @@
 namespace App\Service\Transfer;
 
 use App\Entity\Bank\Account;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 class Transfer
 {
+    #[Groups(['transfer:default'])]
     private Account $from;
 
+    #[Groups(['transfer:default'])]
     private Account $to;
 
+    #[Groups(['transfer:default'])]
     private int $amount = 0;
 
     public function __construct(Account $from, Account $to)

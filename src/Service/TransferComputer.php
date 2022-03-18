@@ -7,6 +7,7 @@ use App\Service\Transfer\Distributor;
 use App\Service\Transfer\Pot;
 use App\Service\Transfer\PotRepartitor;
 use App\Service\Transfer\TransferList;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class TransferComputer
 {
@@ -17,7 +18,7 @@ class TransferComputer
     {
     }
 
-    public function computeForMonth(\DateTime $date, array $accounts): TransferList
+    public function computeForMonth(\DateTime $date, ArrayCollection $accounts): TransferList
     {
         $transfers = new TransferList();
 
@@ -28,7 +29,7 @@ class TransferComputer
         return $transfers;
     }
 
-    private function createPot(\DateTime $date, array $accounts): Pot
+    private function createPot(\DateTime $date, ArrayCollection $accounts): Pot
     {
         $pot = new Pot();
 

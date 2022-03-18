@@ -43,7 +43,7 @@ class TransferList implements \Iterator, \Countable
 
     public function valid(): bool
     {
-        return $this->collection->containsKey($this->collection);
+        return $this->collection->containsKey($this->position);
     }
 
     public function rewind(): void
