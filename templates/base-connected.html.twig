@@ -20,6 +20,7 @@
                 {% include '@component/sidebar.html.twig' %}
                 <div class="flex-grow-1">
                     <div class="container-fluid py-2">
+                        {% include '@component/flash.html.twig' %}
                         {% block body %}{% endblock %}
                     </div>
                 </div>
