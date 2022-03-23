@@ -3,8 +3,10 @@
 namespace App\DataFixtures;
 
 use App\Entity\Bank\Account;
+use App\Entity\Bank\Charge;
 use App\Entity\Bank\Charge\Expense;
 use App\Entity\Bank\Charge\Income;
+use App\Entity\Bank\ChargeGroup;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -38,6 +40,10 @@ class AccountFixture extends Fixture implements DependentFixtureInterface
 
                     $account->addIncome($income);
 
+                    if (isset($incomeData['group'])) {
+                        $this->managegroup($key, $account, $income, $incomeData);
+                    }
+
                     $this->addReference(sprintf('%s%s%s', $key, $incomeData['name'], $incomeData['date']), $income);
                 }
             }
@@ -51,6 +57,10 @@ class AccountFixture extends Fixture implements DependentFixtureInterface
 
                     $account->addExpense($expense);
 
+                    if (isset($expenseData['group'])) {
+                        $this->managegroup($key, $account, $expense, $expenseData);
+                    }
+
                     $this->addReference(sprintf('%s%s%s', $key, $expenseData['name'], $expenseData['date']), $expense);
                 }
             }
@@ -61,6 +71,23 @@ class AccountFixture extends Fixture implements DependentFixtureInterface
         }
 
         $manager->flush();
+    }
+
+    private function managegroup(string $key, Account $account, Charge $charge, array $data): void
+    {
+        if ($this->hasReference($key . $data['group'])) {
+            $group = $this->getReference($key . $data['group']);
+        } else {
+            $group = (new ChargeGroup())
+                ->setAmount($data['amount'])
+                ->setName($data['group']);
+
+            $account->addChargeGroup($group);
+
+            $this->addReference($key . $data['group'], $group);
+        }
+
+        $group?->addCharge($charge);
     }
 
     protected function getData()

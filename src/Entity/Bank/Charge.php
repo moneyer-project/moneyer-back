@@ -25,6 +25,9 @@ abstract class Charge
     #[ORM\OneToOne(targetEntity: PaymentDistribution::class, cascade: ['persist', 'remove'])]
     private $distribution;
 
+    #[ORM\ManyToOne(targetEntity: ChargeGroup::class, inversedBy: 'charges')]
+    private $chargeGroup;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -74,6 +77,18 @@ abstract class Charge
     public function setDistribution(?PaymentDistribution $distribution): self
     {
         $this->distribution = $distribution;
+
+        return $this;
+    }
+
+    public function getChargeGroup(): ?ChargeGroup
+    {
+        return $this->chargeGroup;
+    }
+
+    public function setChargeGroup(?ChargeGroup $chargeGroup): self
+    {
+        $this->chargeGroup = $chargeGroup;
 
         return $this;
     }
