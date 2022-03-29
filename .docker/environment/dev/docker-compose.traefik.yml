@@ -46,3 +46,6 @@ services:
             - ./dockerfiles/traefik/traefik.yaml:/etc/traefik/traefik.yaml:ro
             - ./dockerfiles/traefik/certs:/etc/certs/:ro
             - ./dockerfiles/traefik/confs:/etc/traefik/confs/:ro
+
+    node:
+        command: npm run watch

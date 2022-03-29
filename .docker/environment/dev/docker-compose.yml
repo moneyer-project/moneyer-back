@@ -20,3 +20,6 @@ services:
         image: djfarrelly/maildev:0.13.4
         ports:
             - ${PORT_MAILDEV}:80
+
+    node:
+        command: npm run watch
