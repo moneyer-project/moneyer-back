@@ -1,9 +1,18 @@
 {% block _account_chargeGroups_widget %}
     <div data-controller="form-collection">
-        <table data-form-collection-target="table">
-            {% for chargeGroupForm in form %}
-                {{ form_row(chargeGroupForm) }}
-            {% endfor %}
+        <table class="table" data-form-collection-target="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Amount</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for chargeGroupForm in form %}
+                    {{ form_row(chargeGroupForm) }}
+                {% endfor %}
+            </tbody>
         </table>
         <button type="button" class="btn btn-secondary" data-action="click->form-collection#add">
             <i class="fe fe-plus" title="Add"></i>
@@ -18,8 +27,14 @@
 
 {% block _account_chargeGroups_entry_row %}
     <tr>
-        <td>{{ form_row(form.name) }}</td>
-        <td>{{ form_row(form.amount) }}</td>
+        <td>
+            {{ form_widget(form.name) }}
+            {{ form_errors(form.name) }}
+        </td>
+        <td>
+            {{ form_widget(form.amount) }}
+            {{ form_errors(form.amount) }}
+        </td>
         <td>
             <button type="button" class="btn btn-danger" data-action="click->form-collection#delete">
                 <i class="fe fe-trash" title="Delete"></i>

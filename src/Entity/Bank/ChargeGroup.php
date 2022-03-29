@@ -6,6 +6,7 @@ use App\Repository\Bank\ChargeGroupRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ChargeGroupRepository::class)]
 class ChargeGroup
@@ -16,13 +17,16 @@ class ChargeGroup
     private $id;
 
     #[ORM\Column(type: 'string', length: 100)]
+    #[Assert\NotBlank]
     private $name;
 
     #[ORM\ManyToOne(targetEntity: Account::class, inversedBy: 'chargeGroups')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotNull]
     private $account;
 
     #[ORM\Column(type: 'integer')]
+    #[Assert\NotBlank]
     private $amount;
 
     #[ORM\OneToMany(mappedBy: 'chargeGroup', targetEntity: Charge::class)]
@@ -43,7 +47,7 @@ class ChargeGroup
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(?string $name): self
     {
         $this->name = $name;
 
@@ -67,7 +71,7 @@ class ChargeGroup
         return $this->amount;
     }
 
-    public function setAmount(int $amount): self
+    public function setAmount(?int $amount): self
     {
         $this->amount = $amount;
 
