@@ -13,6 +13,7 @@ class ChargeGroupType extends AbstractType
     {
         $builder
             ->add('name')
+            ->add('amount')
         ;
     }
 
