@@ -1,0 +1,14 @@
+{% extends 'base-connected.html.twig' %}
+
+{% block title %}Account {{ account.name }}{% endblock %}
+
+{% block body %}
+    {{ form_start(form) }}
+        {{ form_row(form) }}
+        <div class="text-center">
+            <button class="btn btn-primary">
+                Save
+            </button>
+        </div>
+    {{ form_end(form) }}
+{% endblock %}

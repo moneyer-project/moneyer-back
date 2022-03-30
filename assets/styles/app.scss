@@ -1,6 +1,7 @@
 $primary: darken(#428bca, 20%);
 
 // Import settings and tools
+@import "~feathericon/build/scss/feathericon";
 @import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
 @import "~bootstrap/scss/mixins";
@@ -22,6 +23,7 @@ $primary: darken(#428bca, 20%);
 @import "~bootstrap/scss/buttons";
 
 // Import components
+@import "~bootstrap/scss/alert";
 @import "~bootstrap/scss/card";
 @import "~bootstrap/scss/nav";
 @import "~bootstrap/scss/navbar";
@@ -32,3 +34,4 @@ $primary: darken(#428bca, 20%);
 // Import utilities
 @import "~bootstrap/scss/helpers/position";
 @import "~bootstrap/scss/utilities/api";
+@import "utilities/sizing";

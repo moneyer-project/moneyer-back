@@ -11,6 +11,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\Ignore;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: AccountRepository::class)]
 class Account
@@ -27,18 +28,26 @@ class Account
 
     #[ORM\Column(type: 'string', length: 100)]
     #[Groups(['account:default', 'transfer:default'])]
+    #[Assert\NotBlank]
     private $name;
+
+    #[Assert\Valid]
+    #[ORM\OneToMany(mappedBy: 'account', targetEntity: ChargeGroup::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
+    private $chargeGroups;
 
     #[ORM\OneToMany(mappedBy: 'account', targetEntity: Income::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
     #[Ignore]
+    #[Assert\Valid]
     private $incomes;
 
     #[ORM\OneToMany(mappedBy: 'account', targetEntity: Expense::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
     #[Ignore]
+    #[Assert\Valid]
     private $expenses;
 
     public function __construct()
     {
+        $this->chargeGroups = new ArrayCollection();
         $this->incomes = new ArrayCollection();
         $this->expenses = new ArrayCollection();
     }
@@ -72,6 +81,36 @@ class Account
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ChargeGroup>
+     */
+    public function getChargeGroups(): Collection
+    {
+        return $this->chargeGroups;
+    }
+
+    public function addChargeGroup(ChargeGroup $chargeGroup): self
+    {
+        if (!$this->chargeGroups->contains($chargeGroup)) {
+            $this->chargeGroups[] = $chargeGroup;
+            $chargeGroup->setAccount($this);
+        }
+
+        return $this;
+    }
+
+    public function removeChargeGroup(ChargeGroup $chargeGroup): self
+    {
+        if ($this->chargeGroups->removeElement($chargeGroup)) {
+            // set the owning side to null (unless already changed)
+            if ($chargeGroup->getAccount() === $this) {
+                $chargeGroup->setAccount(null);
+            }
+        }
 
         return $this;
     }

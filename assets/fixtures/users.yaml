@@ -5,3 +5,9 @@ gwennael.jean@mail.test:
 
 laura.lematelot@mail.test:
   password: "azerty"
+
+user.1@mail.test:
+  password: "azerty"
+
+user.2@mail.test:
+  password: "azerty"
