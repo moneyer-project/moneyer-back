@@ -41,6 +41,13 @@
                href="#">
                 <i class="fe fe-edit" title="Edit"></i>
             </a>
+            <a class="btn btn-success btn-edit"
+               data-toggle="modal"
+               data-action="click->modal#open"
+               data-modal-title-param="Manage charges"
+               href="{{ path('app_account_charges', { id: 1 }) }}">
+                <i class="fe fe-list-task" title="Manage charges"></i>
+            </a>
             <button type="button"
                     class="btn btn-danger btn-delete"
                     data-action="click->form-collection#delete">
