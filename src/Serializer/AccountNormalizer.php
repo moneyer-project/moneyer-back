@@ -4,13 +4,11 @@ namespace App\Serializer;
 
 use App\Entity\Bank\Account;
 use App\Entity\Bank\Charge;
-use App\Entity\Bank\Charge\Income;
 use App\Repository\Bank\Charge\ExpenseRepository;
 use App\Repository\Bank\Charge\IncomeRepository;
-use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Exception\LogicException;
 use Symfony\Component\Serializer\Normalizer\ContextAwareNormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
-use Symfony\Component\Serializer\Exception\LogicException;
 
 class AccountNormalizer implements ContextAwareNormalizerInterface
 {

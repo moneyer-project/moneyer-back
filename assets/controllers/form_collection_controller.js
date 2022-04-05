@@ -13,7 +13,6 @@ export default class extends Controller {
     add() {
         const tr = document.createElement('tr');
         tr.innerHTML = this.prototypeTarget.innerHTML.replace(/__name__/g, ++this.count);
-        tr.querySelector('.btn-edit').remove();
         this.tableTarget.querySelector('tbody').appendChild(tr);
     }
 

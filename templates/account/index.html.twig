@@ -4,7 +4,15 @@
 
 {% block body %}
     {{ form_start(form) }}
-        {{ form_row(form) }}
+        {{ form_row(form.name) }}
+        <div class="row">
+            <div class="col">
+                {{ form_row(form.incomeGroups) }}
+            </div>
+            <div class="col">
+                {{ form_row(form.expenseGroups) }}
+            </div>
+        </div>
         <div class="text-center">
             <button class="btn btn-primary">
                 Save

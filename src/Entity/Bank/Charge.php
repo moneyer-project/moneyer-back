@@ -2,10 +2,19 @@
 
 namespace App\Entity\Bank;
 
+use App\Entity\Bank\Charge\Expense;
+use App\Entity\Bank\Charge\Income;
+use App\Entity\Bank\ChargeGroup\ExpenseGroup;
 use App\Repository\Bank\ChargeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\MappedSuperclass(repositoryClass: ChargeRepository::class)]
+#[ORM\Entity(repositoryClass: ChargeRepository::class)]
+#[ORM\InheritanceType("SINGLE_TABLE")]
+#[ORM\DiscriminatorColumn(name: "type", type: "string")]
+#[ORM\DiscriminatorMap([
+    "income" => Income::class,
+    "expense" => Expense::class,
+])]
 abstract class Charge
 {
     #[ORM\Id]
@@ -24,9 +33,6 @@ abstract class Charge
 
     #[ORM\OneToOne(targetEntity: PaymentDistribution::class, cascade: ['persist', 'remove'])]
     private $distribution;
-
-    #[ORM\ManyToOne(targetEntity: ChargeGroup::class, inversedBy: 'charges')]
-    private $chargeGroup;
 
     public function getId(): ?int
     {
@@ -81,15 +87,7 @@ abstract class Charge
         return $this;
     }
 
-    public function getChargeGroup(): ?ChargeGroup
-    {
-        return $this->chargeGroup;
-    }
+    public abstract function getAccount(): ?Account;
 
-    public function setChargeGroup(?ChargeGroup $chargeGroup): self
-    {
-        $this->chargeGroup = $chargeGroup;
-
-        return $this;
-    }
+    public abstract function getChargeGroup(): ?ChargeGroup;
 }

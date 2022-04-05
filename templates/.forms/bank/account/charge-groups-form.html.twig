@@ -1,3 +1,19 @@
+{% block _account_incomeGroups_widget %}
+    {{- block('_account_chargeGroups_widget') -}}
+{% endblock %}
+
+{% block _account_expenseGroups_widget %}
+    {{- block('_account_chargeGroups_widget') -}}
+{% endblock %}
+
+{% block _account_incomeGroups_entry_row %}
+    {{- block('_account_chargeGroups_entry_row') -}}
+{% endblock %}
+
+{% block _account_expenseGroups_entry_row %}
+    {{- block('_account_chargeGroups_entry_row') -}}
+{% endblock %}
+
 {% block _account_chargeGroups_widget %}
     <div data-controller="form-collection">
         <table class="table" data-form-collection-target="table">
@@ -14,10 +30,13 @@
             {% endfor %}
             </tbody>
         </table>
-        <button type="button" class="btn btn-secondary" data-action="click->form-collection#add">
-            <i class="fe fe-plus" title="Add"></i>
-            New group
-        </button>
+
+        <div class="text-center">
+            <button type="button" class="btn btn-secondary" data-action="click->form-collection#add">
+                <i class="fe fe-plus" title="Add"></i>
+                New group
+            </button>
+        </div>
 
         <template data-form-collection-target="prototype">
             {{ form_row(form.vars.prototype) }}
@@ -36,18 +55,14 @@
             {{ form_errors(form.amount) }}
         </td>
         <td class="text-nowrap w-1">
-            <a type="button"
-               class="btn btn-primary btn-edit"
-               href="#">
-                <i class="fe fe-edit" title="Edit"></i>
-            </a>
-            <a class="btn btn-success btn-edit"
-               data-toggle="modal"
-               data-action="click->modal#open"
-               data-modal-title-param="Manage charges"
-               href="{{ path('app_account_charges', { account: 1 }) }}">
-                <i class="fe fe-list-task" title="Manage charges"></i>
-            </a>
+            {% if form.vars.value is not null %}
+                <a class="btn btn-primary btn-edit"
+                   data-action="click->modal#open"
+                   data-modal-title-param="Edit"
+                   href="{{ path('app_account_charge_group', { chargeGroup: form.vars.value.id }) }}">
+                    <i class="fe fe-edit" title="Edit"></i>
+                </a>
+            {% endif %}
             <button type="button"
                     class="btn btn-danger btn-delete"
                     data-action="click->form-collection#delete">

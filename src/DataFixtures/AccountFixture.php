@@ -6,7 +6,8 @@ use App\Entity\Bank\Account;
 use App\Entity\Bank\Charge;
 use App\Entity\Bank\Charge\Expense;
 use App\Entity\Bank\Charge\Income;
-use App\Entity\Bank\ChargeGroup;
+use App\Entity\Bank\ChargeGroup\IncomeGroup;
+use App\Entity\Bank\ChargeGroup\ExpenseGroup;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -41,7 +42,7 @@ class AccountFixture extends Fixture implements DependentFixtureInterface
                     $account->addIncome($income);
 
                     if (isset($incomeData['group'])) {
-                        $this->managegroup($key, $account, $income, $incomeData);
+                        $this->manageGroup($key, $account, $income, $incomeData);
                     }
 
                     $this->addReference(sprintf('%s%s%s', $key, $incomeData['name'], $incomeData['date']), $income);
@@ -58,7 +59,7 @@ class AccountFixture extends Fixture implements DependentFixtureInterface
                     $account->addExpense($expense);
 
                     if (isset($expenseData['group'])) {
-                        $this->managegroup($key, $account, $expense, $expenseData);
+                        $this->manageGroup($key, $account, $expense, $expenseData);
                     }
 
                     $this->addReference(sprintf('%s%s%s', $key, $expenseData['name'], $expenseData['date']), $expense);
@@ -73,12 +74,17 @@ class AccountFixture extends Fixture implements DependentFixtureInterface
         $manager->flush();
     }
 
-    private function managegroup(string $key, Account $account, Charge $charge, array $data): void
+    private function manageGroup(string $key, Account $account, Charge $charge, array $data): void
     {
         if ($this->hasReference($key . $data['group'])) {
             $group = $this->getReference($key . $data['group']);
         } else {
-            $group = (new ChargeGroup())
+            $group = match(true) {
+                $charge instanceof Income => new IncomeGroup(),
+                $charge instanceof Expense => new ExpenseGroup(),
+            };
+
+            $group
                 ->setAmount($data['amount'])
                 ->setName($data['group']);
 
