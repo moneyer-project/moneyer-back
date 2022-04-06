@@ -18,7 +18,7 @@ class ExpenseGroup extends ChargeGroup
     #[ORM\JoinColumn(nullable: false)]
     protected $account;
 
-    #[ORM\OneToMany(mappedBy: 'chargeGroup', targetEntity: Expense::class)]
+    #[ORM\OneToMany(mappedBy: 'chargeGroup', targetEntity: Expense::class, cascade: ['persist'])]
     private $charges;
 
     public function __construct()

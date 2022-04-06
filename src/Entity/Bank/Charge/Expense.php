@@ -39,6 +39,10 @@ class Expense extends Charge
     {
         $this->chargeGroup = $chargeGroup;
 
+        if (null !== $this->chargeGroup->getAccount()) {
+            $this->setAccount($this->chargeGroup->getAccount());
+        }
+
         return $this;
     }
 }

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Bank\ChargeGroup;
 use App\Form\Bank\ChargeGroupType;
+use App\Helper\Bank\ChargeGroupHelper;
 use App\Repository\Bank\ChargeGroupRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,7 +22,7 @@ class ChargeGroupController extends AbstractController
     #[Route('/account/charge-group/{chargeGroup}', name: 'app_account_charge_group')]
     public function index(Request $request, ChargeGroup $chargeGroup): Response
     {
-        $form = $this->createForm(ChargeGroupType::class, $chargeGroup, [
+        $form = $this->createForm(ChargeGroupHelper::getFormType($chargeGroup), $chargeGroup, [
             'charges_crud' => true
         ]);
 

@@ -1,8 +1,24 @@
 {% use "@form/.inc/_collection.html.twig" %}
 
+{% block _income_group_charges_row %}
+    {{- block('_charge_group_charges_row') -}}
+{% endblock %}
+
+{% block _expense_group_charges_row %}
+    {{- block('_charge_group_charges_row') -}}
+{% endblock %}
+
 {% block _charge_group_charges_row %}
     {% set text_add = 'New charge' %}
     {{- block('collection_table') -}}
+{% endblock %}
+
+{% block _income_group_charges_entry_row %}
+    {{- block('_charge_group_charges_entry_row') -}}
+{% endblock %}
+
+{% block _expense_group_charges_entry_row %}
+    {{- block('_charge_group_charges_entry_row') -}}
 {% endblock %}
 
 {% block _charge_group_charges_entry_row %}
