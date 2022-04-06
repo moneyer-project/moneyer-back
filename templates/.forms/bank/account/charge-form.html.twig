@@ -1,16 +1,9 @@
-{% use "@form/.inc/_collection.html.twig" %}
-
 {% block _income_group_charges_row %}
     {{- block('_charge_group_charges_row') -}}
 {% endblock %}
 
 {% block _expense_group_charges_row %}
     {{- block('_charge_group_charges_row') -}}
-{% endblock %}
-
-{% block _charge_group_charges_row %}
-    {% set text_add = 'New charge' %}
-    {{- block('collection_table') -}}
 {% endblock %}
 
 {% block _income_group_charges_entry_row %}
@@ -21,7 +14,62 @@
     {{- block('_charge_group_charges_entry_row') -}}
 {% endblock %}
 
+{% block _income_group_charges_entry_date_row %}
+    {{- block('_charge_group_charges_entry_date_row') -}}
+{% endblock %}
+
+{% block _expense_group_charges_entry_date_row %}
+    {{- block('_charge_group_charges_entry_date_row') -}}
+{% endblock %}
+
+{% block _charge_group_charges_row %}
+    <div data-controller="charge-manager" data-charge-manager-year-value="{{ "now" | date('Y') }}">
+
+        <div class="d-flex flex-row justify-content-center align-items-center">
+            <button type="button"
+                    class="btn btn-secondary"
+                    data-action="click->charge-manager#previous">
+                <i class="fe fe-arrow-left"></i>
+            </button>
+            <div class="p-2" data-charge-manager-target="year">
+                {{ "now" | date('Y') }}
+            </div>
+            <button type="button"
+                    class="btn btn-secondary"
+                    data-action="click->charge-manager#next">
+                <i class="fe fe-arrow-right"></i>
+            </button>
+        </div>
+
+        <div class="row">
+            {% for field in form %}
+                {{ form_row(field) }}
+            {% endfor %}
+        </div>
+
+        <div class="text-center">
+            <button type="button" class="btn btn-secondary" data-action="click->form-collection#add">
+                <i class="fe fe-plus" title="Add"></i>
+                New charges
+            </button>
+        </div>
+    </div>
+{% endblock %}
+
 {% block _charge_group_charges_entry_row %}
-    {% set url_edit = form.vars.value is not null ? '#' : null %}
-    {{- block('collection_entry') -}}
+    <div class="col-6 col-md-4"
+         data-charge-manager-target="charge"
+         data-month="{{ form.vars.value.date | date('m') }}"
+         data-year="{{ form.vars.value.date | date('Y') }}">
+        {{ form_row(form.date) }}
+        {{ form_row(form.name) }}
+        {{ form_row(form.amount) }}
+    </div>
+{% endblock %}
+
+{% block _charge_group_charges_entry_date_row %}
+    <div class="text-center">
+        {{ form.vars.data | date('m/Y') }}
+    </div>
+    {{ form_row(form) }}
 {% endblock %}

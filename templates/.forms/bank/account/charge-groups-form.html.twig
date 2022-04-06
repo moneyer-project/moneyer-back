@@ -15,11 +15,58 @@
 {% endblock %}
 
 {% block _account_chargeGroups_widget %}
-    {% set text_add = 'New group' %}
-    {{- block('collection_table') -}}
+    <div data-controller="form-collection">
+        <table class="table" data-form-collection-target="table">
+            <thead>
+            <tr>
+                {% for field in form.children.0 %}
+                    <th>{{ form_label(field) }}</th>
+                {% endfor %}
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for field in form %}
+                {{ form_row(field) }}
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="text-center">
+            <button type="button" class="btn btn-secondary" data-action="click->form-collection#add">
+                <i class="fe fe-plus" title="Add"></i>
+                New group
+            </button>
+        </div>
+
+        <template data-form-collection-target="prototype">
+            {{ form_row(form.vars.prototype) }}
+        </template>
+    </div>
 {% endblock %}
 
 {% block _account_chargeGroups_entry_row %}
-    {% set url_edit = form.vars.value is not null ? path('app_account_charge_group', { chargeGroup: form.vars.value.id }) : null %}
-    {{- block('collection_entry') -}}
+    <tr>
+        {% for field in form %}
+            <td class="text-nowrap">
+                {{ form_widget(field) }}
+                {{ form_errors(form.name) }}
+            </td>
+        {% endfor %}
+        <td class="text-nowrap w-1">
+            {% if form.vars.value is not null %}
+                <a class="btn btn-primary btn-edit"
+                   data-action="click->modal#open"
+                   data-modal-title-param="Edit"
+                   href="{{ path('app_account_charge_group', { chargeGroup: form.vars.value.id }) }}">
+                    <i class="fe fe-edit" title="Edit"></i>
+                </a>
+            {% endif %}
+            <button type="button"
+                    class="btn btn-danger btn-delete"
+                    data-action="click->form-collection#delete">
+                <i class="fe fe-trash" title="Delete"></i>
+            </button>
+        </td>
+    </tr>
 {% endblock %}

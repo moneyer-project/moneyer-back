@@ -18,15 +18,21 @@ class ChargeGroupType extends AbstractType
         $builder
             ->add('name')
             ->add('amount');
+    }
 
+    public function finishView(FormView $view, FormInterface $form, array $options)
+    {
         if ($options['charges_crud']) {
-            $builder->add('charges', CollectionType::class, [
-                'entry_type' => ChargeType::class,
-                'label' => false,
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-            ]);
+            usort($view['charges']->children, function (FormView $a, FormView $b) {
+                $chargeA = $a->vars['data'];
+                $chargeB = $b->vars['data'];
+
+                if ($chargeA->getDate() == $chargeB->getDate()) {
+                    return 0;
+                }
+
+                return ($chargeA->getDate() < $chargeB->getDate()) ? -1 : 1;
+            });
         }
     }
 
