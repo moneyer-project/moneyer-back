@@ -1,7 +1,0 @@
-{% extends app.request.xmlHttpRequest ? 'base-connected-ajax.html.twig' : 'base-connected.html.twig' %}
-
-{% block title %}Account {{ account.name }}{% endblock %}
-
-{% block body %}
-    {{ form(form) }}
-{% endblock %}

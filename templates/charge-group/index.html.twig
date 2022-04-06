@@ -1,0 +1,24 @@
+{% extends app.request.xmlHttpRequest ? 'base-connected-ajax.html.twig' : 'base-connected.html.twig' %}
+
+{% block title %}Account {{ account.name }}{% endblock %}
+
+{% block body %}
+    {{ form_start(form) }}
+        <div class="row">
+            <div class="col">
+                {{ form_row(form.name) }}
+            </div>
+            <div class="col">
+                {{ form_row(form.amount) }}
+            </div>
+        </div>
+
+        {{ form_row(form.charges) }}
+
+        <div class="text-center">
+            <button class="btn btn-primary">
+                Save
+            </button>
+        </div>
+    {{ form_end(form) }}
+{% endblock %}

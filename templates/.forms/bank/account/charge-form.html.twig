@@ -1,0 +1,11 @@
+{% use "@form/.inc/_collection.html.twig" %}
+
+{% block _charge_group_charges_row %}
+    {% set text_add = 'New charge' %}
+    {{- block('collection_table') -}}
+{% endblock %}
+
+{% block _charge_group_charges_entry_row %}
+    {% set url_edit = form.vars.value is not null ? '#' : null %}
+    {{- block('collection_entry') -}}
+{% endblock %}

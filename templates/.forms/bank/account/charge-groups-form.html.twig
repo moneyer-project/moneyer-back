@@ -15,59 +15,11 @@
 {% endblock %}
 
 {% block _account_chargeGroups_widget %}
-    <div data-controller="form-collection">
-        <table class="table" data-form-collection-target="table">
-            <thead>
-            <tr>
-                <th>Name</th>
-                <th>Amount</th>
-                <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for chargeGroupForm in form %}
-                {{ form_row(chargeGroupForm) }}
-            {% endfor %}
-            </tbody>
-        </table>
-
-        <div class="text-center">
-            <button type="button" class="btn btn-secondary" data-action="click->form-collection#add">
-                <i class="fe fe-plus" title="Add"></i>
-                New group
-            </button>
-        </div>
-
-        <template data-form-collection-target="prototype">
-            {{ form_row(form.vars.prototype) }}
-        </template>
-    </div>
+    {% set text_add = 'New group' %}
+    {{- block('collection_table') -}}
 {% endblock %}
 
 {% block _account_chargeGroups_entry_row %}
-    <tr>
-        <td class="text-nowrap">
-            {{ form_widget(form.name) }}
-            {{ form_errors(form.name) }}
-        </td>
-        <td class="text-nowrap">
-            {{ form_widget(form.amount) }}
-            {{ form_errors(form.amount) }}
-        </td>
-        <td class="text-nowrap w-1">
-            {% if form.vars.value is not null %}
-                <a class="btn btn-primary btn-edit"
-                   data-action="click->modal#open"
-                   data-modal-title-param="Edit"
-                   href="{{ path('app_account_charge_group', { chargeGroup: form.vars.value.id }) }}">
-                    <i class="fe fe-edit" title="Edit"></i>
-                </a>
-            {% endif %}
-            <button type="button"
-                    class="btn btn-danger btn-delete"
-                    data-action="click->form-collection#delete">
-                <i class="fe fe-trash" title="Delete"></i>
-            </button>
-        </td>
-    </tr>
+    {% set url_edit = form.vars.value is not null ? path('app_account_charge_group', { chargeGroup: form.vars.value.id }) : null %}
+    {{- block('collection_entry') -}}
 {% endblock %}

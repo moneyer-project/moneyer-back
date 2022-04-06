@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ChargeController extends AbstractController
+class ChargeGroupController extends AbstractController
 {
     public function __construct(
         private ChargeGroupRepository $chargeGroupRepository,
@@ -37,7 +37,7 @@ class ChargeController extends AbstractController
             ]);
         }
 
-        return $this->render('charge/index.html.twig', [
+        return $this->render('charge-group/index.html.twig', [
             'account' => $chargeGroup->getAccount(),
             'chargeGroup' => $chargeGroup,
             'form' => $form->createView(),
