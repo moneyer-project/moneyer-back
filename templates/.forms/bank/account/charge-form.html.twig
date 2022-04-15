@@ -23,8 +23,9 @@
 {% endblock %}
 
 {% block _charge_group_charges_row %}
-    <div data-controller="charge-manager" data-charge-manager-year-value="{{ "now" | date('Y') }}">
-
+    <div data-controller="charge-manager"
+         data-charge-manager-year-value="{{ "now" | date('Y') }}"
+         data-charge-manager-prototype-value="{{ form_row(form.vars.prototype)|e }}">
         <div class="d-flex flex-row justify-content-center align-items-center">
             <button type="button"
                     class="btn btn-secondary"
@@ -41,7 +42,7 @@
             </button>
         </div>
 
-        <div class="row">
+        <div class="row" data-charge-manager-target="container">
             {% for field in form %}
                 {{ form_row(field) }}
             {% endfor %}
@@ -59,8 +60,8 @@
 {% block _charge_group_charges_entry_row %}
     <div class="col-6 col-md-4"
          data-charge-manager-target="charge"
-         data-month="{{ form.vars.value.date | date('m') }}"
-         data-year="{{ form.vars.value.date | date('Y') }}">
+         data-month="{{ form.vars.value is not null ? (form.vars.value.date | date('m')) : '__month__' }}"
+         data-year="{{ form.vars.value is not null ? (form.vars.value.date | date('Y')) : '__year__' }}">
         {{ form_row(form.date) }}
         {{ form_row(form.name) }}
         {{ form_row(form.amount) }}
@@ -69,7 +70,7 @@
 
 {% block _charge_group_charges_entry_date_row %}
     <div class="text-center">
-        {{ form.vars.data | date('m/Y') }}
+        {{ form.vars.data is not null ? (form.vars.data | date('m/Y')) : '__month__/__year__' }}
     </div>
     {{ form_row(form) }}
 {% endblock %}
