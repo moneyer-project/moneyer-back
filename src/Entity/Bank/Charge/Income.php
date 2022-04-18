@@ -4,6 +4,7 @@ namespace App\Entity\Bank\Charge;
 
 use App\Entity\Bank\Account;
 use App\Entity\Bank\Charge;
+use App\Entity\Bank\ChargeGroup;
 use App\Entity\Bank\ChargeGroup\IncomeGroup;
 use App\Repository\Bank\ChargeGroup\IncomeGroupRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -35,7 +36,7 @@ class Income extends Charge
         return $this->chargeGroup;
     }
 
-    public function setChargeGroup(?IncomeGroup $chargeGroup): self
+    public function setChargeGroup(?ChargeGroup $chargeGroup): self
     {
         $this->chargeGroup = $chargeGroup;
 

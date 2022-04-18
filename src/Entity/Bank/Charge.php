@@ -7,6 +7,7 @@ use App\Entity\Bank\Charge\Income;
 use App\Entity\Bank\ChargeGroup\ExpenseGroup;
 use App\Repository\Bank\ChargeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ChargeRepository::class)]
 #[ORM\InheritanceType("SINGLE_TABLE")]
@@ -23,9 +24,11 @@ abstract class Charge
     protected $id;
 
     #[ORM\Column(type: 'string', length: 100)]
+    #[Assert\NotBlank(message: "Name cannot be blank")]
     protected $name;
 
     #[ORM\Column(type: 'integer')]
+    #[Assert\NotBlank(message: "Amount cannot be blank")]
     protected $amount;
 
     #[ORM\Column(type: 'date')]
@@ -44,7 +47,7 @@ abstract class Charge
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(?string $name): self
     {
         $this->name = $name;
 
@@ -56,7 +59,7 @@ abstract class Charge
         return $this->amount;
     }
 
-    public function setAmount(int $amount): self
+    public function setAmount(?int $amount): self
     {
         $this->amount = $amount;
 
@@ -89,5 +92,9 @@ abstract class Charge
 
     public abstract function getAccount(): ?Account;
 
+    public abstract function setAccount(?Account $account): self;
+
     public abstract function getChargeGroup(): ?ChargeGroup;
+
+    public abstract function setChargeGroup(?ChargeGroup $chargeGroup): self;
 }

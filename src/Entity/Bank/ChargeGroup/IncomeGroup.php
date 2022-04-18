@@ -10,6 +10,7 @@ use App\Repository\Bank\ChargeGroup\IncomeGroupRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: IncomeGroupRepository::class)]
 class IncomeGroup extends ChargeGroup
@@ -19,6 +20,7 @@ class IncomeGroup extends ChargeGroup
     protected $account;
 
     #[ORM\OneToMany(mappedBy: 'chargeGroup', targetEntity: Income::class, cascade: ['persist'])]
+    #[Assert\Valid]
     private $charges;
 
     public function __construct()

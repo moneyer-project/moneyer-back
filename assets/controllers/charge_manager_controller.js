@@ -11,7 +11,7 @@ export default class extends Controller {
 
     connect() {
         this.yearTarget.textContent = this.yearValue;
-        this.showChargesByYear(this.yearValue);
+        this.chargesRender(this.yearValue);
     }
 
     previous() {
@@ -25,7 +25,13 @@ export default class extends Controller {
     update(year) {
         this.yearValue = year;
         this.yearTarget.textContent = this.yearValue;
+        this.chargesRender(year);
+    }
+
+    chargesRender(year) {
         this.showChargesByYear(year);
+        this.addMissedCharges(year);
+        this.sortCharges();
     }
 
     showChargesByYear(year) {
@@ -35,9 +41,6 @@ export default class extends Controller {
                 charge.classList.remove('d-none');
             }
         });
-
-        this.addMissedCharges(year);
-        this.sortCharges();
     }
 
     addMissedCharges(year) {
@@ -50,9 +53,10 @@ export default class extends Controller {
                 var widget = document.createElement('div');
 
                 widget.innerHTML = this.prototypeValue
-                    .replace(/__name__/g, this.chargeTargets.length)
+                    .replace(/__name__/g, this.getMinKey())
                     .replace(/__year__/g, year)
                     .replace(/__month__/g, month.toString().padStart(2, '0'))
+                    .replace(/__date__/g, year + '-' + month.toString().padStart(2, '0') + '-01 00:00:00')
                     .trim();
 
                 this.containerTarget.append(widget.firstChild);
@@ -78,6 +82,18 @@ export default class extends Controller {
 
         for (let i in itemsArr) {
             this.containerTarget.appendChild(itemsArr[i]);
+        }
+    }
+
+    getMinKey() {
+        const keys = this.chargeTargets.map(charge => parseInt(charge.dataset.key));
+        let i = 0;
+        while (true) {
+            if (!keys.includes(i)) {
+                return i;
+            }
+
+            i++;
         }
     }
 }

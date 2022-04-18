@@ -22,6 +22,30 @@
     {{- block('_charge_group_charges_entry_date_row') -}}
 {% endblock %}
 
+{% block _expense_group_charges_entry_name_label %}
+    {{- block('_charge_group_charges_entry_input_label') -}}
+{% endblock %}
+
+{% block _income_group_charges_entry_name_label %}
+    {{- block('_charge_group_charges_entry_input_label') -}}
+{% endblock %}
+
+{% block _expense_group_charges_entry_amount_label %}
+    {{- block('_charge_group_charges_entry_input_label') -}}
+{% endblock %}
+
+{% block _income_group_charges_entry_amount_label %}
+    {{- block('_charge_group_charges_entry_input_label') -}}
+{% endblock %}
+
+{% block _expense_group_charges_entry_date_widget %}
+    {{- block('_charge_group_charges_entry_date_widget') -}}
+{% endblock %}
+
+{% block _income_group_charges_entry_date_widget %}
+    {{- block('_charge_group_charges_entry_date_widget') -}}
+{% endblock %}
+
 {% block _charge_group_charges_row %}
     <div data-controller="charge-manager"
          data-charge-manager-year-value="{{ "now" | date('Y') }}"
@@ -60,11 +84,20 @@
 {% block _charge_group_charges_entry_row %}
     <div class="col-6 col-md-4"
          data-charge-manager-target="charge"
+         data-key="{{ name }}"
          data-month="{{ form.vars.value is not null ? (form.vars.value.date | date('m')) : '__month__' }}"
          data-year="{{ form.vars.value is not null ? (form.vars.value.date | date('Y')) : '__year__' }}">
         {{ form_row(form.date) }}
-        {{ form_row(form.name) }}
-        {{ form_row(form.amount) }}
+        <div>
+            <div>
+                {{ form_label(form.name) }}
+                {{ form_widget(form.name) }}
+            </div>
+            <div>
+                {{ form_label(form.amount) }}
+                {{ form_widget(form.amount) }}
+            </div>
+        </div>
     </div>
 {% endblock %}
 
@@ -72,5 +105,14 @@
     <div class="text-center">
         {{ form.vars.data is not null ? (form.vars.data | date('m/Y')) : '__month__/__year__' }}
     </div>
+
     {{ form_row(form) }}
+{% endblock %}
+
+{% block _charge_group_charges_entry_input_label %}
+    <label>{{ name | humanize | trans }}</label>
+{% endblock %}
+
+{% block _charge_group_charges_entry_date_widget %}
+    <input type="hidden" {{ block('widget_attributes') }} value="{{ value is not empty ? value : '__date__' }}" />
 {% endblock %}

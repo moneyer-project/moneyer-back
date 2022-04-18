@@ -21,12 +21,18 @@ class AccountType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
+                'entry_options' => [
+                    'account' => $builder->getData(),
+                ]
             ])
             ->add('expenseGroups', CollectionType::class, [
                 'entry_type' => ExpenseGroupType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
+                'entry_options' => [
+                    'account' => $builder->getData(),
+                ]
             ])
         ;
     }
