@@ -11,6 +11,7 @@ services:
             - "MYSQL_PASSWORD=${BDD_MYSQL_PASSWORD}"
             - "MYSQL_DATABASE=${BDD_MYSQL_DATABASE}"
     web:
+        image: gjean76/php-symfony:8.1-apache
         build: ./dockerfiles/web
         volumes:
             - ${SOURCE_ROOT_FOLDER}:/app
