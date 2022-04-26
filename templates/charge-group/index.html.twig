@@ -1,0 +1,32 @@
+{% extends 'base-connected.html.twig' %}
+
+{% block title %}Account {{ account.name }}{% endblock %}
+
+{% block body %}
+    {{ form_start(form) }}
+        {{ form_errors(form) }}
+        <div class="row">
+            <div class="col">
+                {{ form_row(form.name) }}
+            </div>
+            <div class="col">
+                {{ form_row(form.amount) }}
+            </div>
+        </div>
+
+        {{ form_row(form.charges) }}
+
+        <div class="text-end">
+            <button type="button" class="btn btn-secondary" data-action="click->form-collection#add">
+                <i class="fe fe-plus" title="{% trans %}Add{% endtrans %}"></i>
+                {% trans %}New charges{% endtrans %}
+            </button>
+
+            <button class="btn btn-primary">
+                <i class="fe fe-check" title="{% trans %}Save{% endtrans %}"></i>
+                {% trans %}Save{% endtrans %}
+            </button>
+        </div>
+
+    {{ form_end(form) }}
+{% endblock %}

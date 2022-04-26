@@ -2,14 +2,21 @@
 
 namespace App\Entity\Bank;
 
+use App\Entity\Bank\ChargeGroup\ExpenseGroup;
+use App\Entity\Bank\ChargeGroup\IncomeGroup;
 use App\Repository\Bank\ChargeGroupRepository;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ChargeGroupRepository::class)]
-class ChargeGroup
+#[ORM\InheritanceType("SINGLE_TABLE")]
+#[ORM\DiscriminatorColumn(name: "type", type: "string")]
+#[ORM\DiscriminatorMap([
+    "income" => IncomeGroup::class,
+    "expense" => ExpenseGroup::class,
+])]
+abstract class ChargeGroup
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -20,22 +27,9 @@ class ChargeGroup
     #[Assert\NotBlank]
     private $name;
 
-    #[ORM\ManyToOne(targetEntity: Account::class, inversedBy: 'chargeGroups')]
-    #[ORM\JoinColumn(nullable: false)]
-    #[Assert\NotNull]
-    private $account;
-
     #[ORM\Column(type: 'integer')]
     #[Assert\NotBlank]
     private $amount;
-
-    #[ORM\OneToMany(mappedBy: 'chargeGroup', targetEntity: Charge::class)]
-    private $charges;
-
-    public function __construct()
-    {
-        $this->charges = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -54,18 +48,6 @@ class ChargeGroup
         return $this;
     }
 
-    public function getAccount(): ?Account
-    {
-        return $this->account;
-    }
-
-    public function setAccount(?Account $account): self
-    {
-        $this->account = $account;
-
-        return $this;
-    }
-
     public function getAmount(): ?int
     {
         return $this->amount;
@@ -78,33 +60,7 @@ class ChargeGroup
         return $this;
     }
 
-    /**
-     * @return Collection<int, Charge>
-     */
-    public function getCharges(): Collection
-    {
-        return $this->charges;
-    }
+    public abstract function getAccount(): ?Account;
 
-    public function addCharge(Charge $charge): self
-    {
-        if (!$this->charges->contains($charge)) {
-            $this->charges[] = $charge;
-            $charge->setChargeGroup($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCharge(Charge $charge): self
-    {
-        if ($this->charges->removeElement($charge)) {
-            // set the owning side to null (unless already changed)
-            if ($charge->getChargeGroup() === $this) {
-                $charge->setChargeGroup(null);
-            }
-        }
-
-        return $this;
-    }
+    public abstract function getCharges(): Collection;
 }

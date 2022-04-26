@@ -25,6 +25,8 @@ $primary: darken(#428bca, 20%);
 // Import components
 @import "~bootstrap/scss/alert";
 @import "~bootstrap/scss/card";
+@import "~bootstrap/scss/list-group";
+@import "~bootstrap/scss/modal";
 @import "~bootstrap/scss/nav";
 @import "~bootstrap/scss/navbar";
 @import "components/jumbotron";

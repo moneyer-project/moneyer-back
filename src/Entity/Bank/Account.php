@@ -4,6 +4,8 @@ namespace App\Entity\Bank;
 
 use App\Entity\Bank\Charge\Expense;
 use App\Entity\Bank\Charge\Income;
+use App\Entity\Bank\ChargeGroup\ExpenseGroup;
+use App\Entity\Bank\ChargeGroup\IncomeGroup;
 use App\Entity\User;
 use App\Repository\Bank\AccountRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -32,13 +34,17 @@ class Account
     private $name;
 
     #[Assert\Valid]
-    #[ORM\OneToMany(mappedBy: 'account', targetEntity: ChargeGroup::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
-    private $chargeGroups;
+    #[ORM\OneToMany(mappedBy: 'account', targetEntity: IncomeGroup::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
+    private $incomeGroups;
 
     #[ORM\OneToMany(mappedBy: 'account', targetEntity: Income::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
     #[Ignore]
     #[Assert\Valid]
     private $incomes;
+
+    #[Assert\Valid]
+    #[ORM\OneToMany(mappedBy: 'account', targetEntity: ExpenseGroup::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
+    private $expenseGroups;
 
     #[ORM\OneToMany(mappedBy: 'account', targetEntity: Expense::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
     #[Ignore]
@@ -47,8 +53,9 @@ class Account
 
     public function __construct()
     {
-        $this->chargeGroups = new ArrayCollection();
+        $this->incomeGroups = new ArrayCollection();
         $this->incomes = new ArrayCollection();
+        $this->expenseGroups = new ArrayCollection();
         $this->expenses = new ArrayCollection();
     }
 
@@ -85,27 +92,35 @@ class Account
         return $this;
     }
 
+    public function addChargeGroup(ChargeGroup $chargeGroup): self
+    {
+        switch (true) {
+            case $chargeGroup instanceof IncomeGroup: return $this->addIncomeGroup($chargeGroup);
+            case $chargeGroup instanceof ExpenseGroup: return $this->addExpenseGroup($chargeGroup);
+        }
+    }
+
     /**
      * @return Collection<int, ChargeGroup>
      */
-    public function getChargeGroups(): Collection
+    public function getIncomeGroups(): Collection
     {
-        return $this->chargeGroups;
+        return $this->incomeGroups;
     }
 
-    public function addChargeGroup(ChargeGroup $chargeGroup): self
+    public function addIncomeGroup(ChargeGroup $chargeGroup): self
     {
-        if (!$this->chargeGroups->contains($chargeGroup)) {
-            $this->chargeGroups[] = $chargeGroup;
+        if (!$this->incomeGroups->contains($chargeGroup)) {
+            $this->incomeGroups[] = $chargeGroup;
             $chargeGroup->setAccount($this);
         }
 
         return $this;
     }
 
-    public function removeChargeGroup(ChargeGroup $chargeGroup): self
+    public function removeIncomeGroup(ChargeGroup $chargeGroup): self
     {
-        if ($this->chargeGroups->removeElement($chargeGroup)) {
+        if ($this->incomeGroups->removeElement($chargeGroup)) {
             // set the owning side to null (unless already changed)
             if ($chargeGroup->getAccount() === $this) {
                 $chargeGroup->setAccount(null);
@@ -139,6 +154,36 @@ class Account
             // set the owning side to null (unless already changed)
             if ($income->getAccount() === $this) {
                 $income->setAccount(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ChargeGroup>
+     */
+    public function getExpenseGroups(): Collection
+    {
+        return $this->expenseGroups;
+    }
+
+    public function addExpenseGroup(ChargeGroup $chargeGroup): self
+    {
+        if (!$this->expenseGroups->contains($chargeGroup)) {
+            $this->expenseGroups[] = $chargeGroup;
+            $chargeGroup->setAccount($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExpenseGroup(ChargeGroup $chargeGroup): self
+    {
+        if ($this->expenseGroups->removeElement($chargeGroup)) {
+            // set the owning side to null (unless already changed)
+            if ($chargeGroup->getAccount() === $this) {
+                $chargeGroup->setAccount(null);
             }
         }
 

@@ -1,0 +1,128 @@
+{% block _income_group_charges_row %}
+    {{- block('_charge_group_charges_row') -}}
+{% endblock %}
+
+{% block _expense_group_charges_row %}
+    {{- block('_charge_group_charges_row') -}}
+{% endblock %}
+
+{% block _income_group_charges_entry_row %}
+    {{- block('_charge_group_charges_entry_row') -}}
+{% endblock %}
+
+{% block _expense_group_charges_entry_row %}
+    {{- block('_charge_group_charges_entry_row') -}}
+{% endblock %}
+
+{% block _income_group_charges_entry_date_row %}
+    {{- block('_charge_group_charges_entry_date_row') -}}
+{% endblock %}
+
+{% block _expense_group_charges_entry_date_row %}
+    {{- block('_charge_group_charges_entry_date_row') -}}
+{% endblock %}
+
+{% block _expense_group_charges_entry_name_label %}
+    {{- block('_charge_group_charges_entry_input_label') -}}
+{% endblock %}
+
+{% block _income_group_charges_entry_name_label %}
+    {{- block('_charge_group_charges_entry_input_label') -}}
+{% endblock %}
+
+{% block _expense_group_charges_entry_amount_label %}
+    {{- block('_charge_group_charges_entry_input_label') -}}
+{% endblock %}
+
+{% block _income_group_charges_entry_amount_label %}
+    {{- block('_charge_group_charges_entry_input_label') -}}
+{% endblock %}
+
+{% block _expense_group_charges_entry_date_widget %}
+    {{- block('_charge_group_charges_entry_date_widget') -}}
+{% endblock %}
+
+{% block _income_group_charges_entry_date_widget %}
+    {{- block('_charge_group_charges_entry_date_widget') -}}
+{% endblock %}
+
+{% block _charge_group_charges_row %}
+    <div data-controller="charge-manager"
+         data-charge-manager-year-value="{{ "now" | date('Y') }}"
+         data-charge-manager-prototype-value="{{ form_row(form.vars.prototype)|e }}">
+        <div class="d-flex flex-row justify-content-center align-items-center">
+            <button type="button"
+                    class="btn btn-secondary"
+                    data-action="click->charge-manager#previous">
+                <i class="fe fe-arrow-left"></i>
+            </button>
+            <div class="p-2" data-charge-manager-target="year">
+                {{ "now" | date('Y') }}
+            </div>
+            <button type="button"
+                    class="btn btn-secondary"
+                    data-action="click->charge-manager#next">
+                <i class="fe fe-arrow-right"></i>
+            </button>
+        </div>
+
+        <div class="mb-1">
+            <div class="row">
+                <div class="col-2">
+                    <strong>
+                        {% trans %}Date{% endtrans %}
+                    </strong>
+                </div>
+                <div class="col-5">
+                    <strong>
+                        {% trans %}Name{% endtrans %}
+                    </strong>
+                </div>
+                <div class="col-5">
+                    <strong>
+                        {% trans %}Amount{% endtrans %}
+                    </strong>
+                </div>
+            </div>
+        </div>
+
+        <ul class="list-group" data-charge-manager-target="container">
+            {% for field in form %}
+                {{ form_row(field) }}
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
+
+{% block _charge_group_charges_entry_row %}
+    <li class="list-group-item list-group-item-action"
+         data-charge-manager-target="charge"
+         data-key="{{ name }}"
+         data-month="{{ form.vars.value is not null ? (form.vars.value.date | date('m')) : '__month__' }}"
+         data-year="{{ form.vars.value is not null ? (form.vars.value.date | date('Y')) : '__year__' }}">
+        <div class="row">
+            <div class="col-2">
+                {{ form_row(form.date) }}
+            </div>
+            <div class="col-5">
+                {{ form_widget(form.name) }}
+            </div>
+            <div class="col-5">
+                {{ form_widget(form.amount) }}
+            </div>
+        </div>
+    </li>
+{% endblock %}
+
+{% block _charge_group_charges_entry_date_row %}
+    {{ form.vars.data is not null ? (form.vars.data | date('m/Y')) : '__month__/__year__' }}
+    {{ form_row(form) }}
+{% endblock %}
+
+{% block _charge_group_charges_entry_input_label %}
+    <label>{{ name | humanize | trans }}</label>
+{% endblock %}
+
+{% block _charge_group_charges_entry_date_widget %}
+    <input type="hidden" {{ block('widget_attributes') }} value="{{ value is not empty ? value : '__date__' }}" />
+{% endblock %}

@@ -3,6 +3,8 @@
 namespace App\Form\Bank;
 
 use App\Entity\Bank\Account;
+use App\Form\Bank\ChargeGroup\ExpenseGroupType;
+use App\Form\Bank\ChargeGroup\IncomeGroupType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -14,11 +16,23 @@ class AccountType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('chargeGroups', CollectionType::class, [
-                'entry_type' => ChargeGroupType::class,
+            ->add('incomeGroups', CollectionType::class, [
+                'entry_type' => IncomeGroupType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
+                'entry_options' => [
+                    'account' => $builder->getData(),
+                ]
+            ])
+            ->add('expenseGroups', CollectionType::class, [
+                'entry_type' => ExpenseGroupType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'entry_options' => [
+                    'account' => $builder->getData(),
+                ]
             ])
         ;
     }

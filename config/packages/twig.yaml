@@ -6,6 +6,7 @@ twig:
     form_themes:
         - 'bootstrap_4_layout.html.twig'
         - '@form/bank/account/charge-groups-form.html.twig'
+        - '@form/bank/account/charge-form.html.twig'
 
 when@test:
     twig:
