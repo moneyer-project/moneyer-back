@@ -3,33 +3,31 @@
 {% block title %}Hello DashboardController!{% endblock %}
 
 {% block body %}
-    <div>
-        {% include "@component/monthpicker.html.twig" with { date } only %}
+    {% include "@component/monthpicker.html.twig" with { date } only %}
 
-        {% if account is defined %}
-            <div class="row">
-                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                    <div class="mb-3">
-                        {% include "@component/cards/account-card.html.twig" with { account } only %}
-                    </div>
+    {% if account is defined %}
+        <div class="row">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                <div class="mb-3">
+                    {% include "@component/cards/account-card.html.twig" with { account } only %}
                 </div>
             </div>
-        {% endif %}
-
-        {% if account is defined %}
-            <div class="row">
-                {% for externalAccount in externalAccounts %}
-                    <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                        <div class="mb-3">
-                            {% include "@component/cards/account-card.html.twig" with { account: externalAccount } only %}
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-        {% endif %}
-
-        <div class="mb-3">
-            {% include "@component/tables/transfers-table.html.twig" with { transfers } only %}
         </div>
+    {% endif %}
+
+    {% if account is defined %}
+        <div class="row">
+            {% for externalAccount in externalAccounts %}
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <div class="mb-3">
+                        {% include "@component/cards/account-card.html.twig" with { account: externalAccount } only %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <div class="mb-3">
+        {% include "@component/tables/transfers-table.html.twig" with { transfers } only %}
     </div>
 {% endblock %}

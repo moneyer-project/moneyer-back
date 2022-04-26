@@ -13,18 +13,21 @@
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
-    <body>
+    <body class="overflow-hidden">
         <div class="d-flex flex-column h-100">
             {% include '@component/topbar.html.twig' %}
-            <div class="d-flex flex-row flex-grow-1">
+            <div class="d-flex flex-grow-1 overflow-hidden">
                 {% include '@component/sidebar.html.twig' %}
-                <div class="flex-grow-1">
+                <div class="flex-grow-1 overflow-auto">
+                    {% block body_topbar %}{% endblock %}
+
                     <div class="container-fluid py-2">
                         {% include '@component/flash.html.twig' %}
                         {% block body %}{% endblock %}
                     </div>
                 </div>
             </div>
+            {% include '@component/bottombar.html.twig' %}
         </div>
     </body>
 </html>
