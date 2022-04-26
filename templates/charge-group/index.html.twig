@@ -2,8 +2,24 @@
 
 {% block title %}Account {{ account.name }}{% endblock %}
 
+{% block body_topbar %}
+<nav class="navbar sticky-top navbar-light bg-light">
+    <div class="container-fluid justify-content-end">
+        <button type="button" class="btn btn-outline-secondary me-2">
+            <i class="fe fe-plus" title="{% trans %}Add{% endtrans %}"></i>
+            {% trans %}New charges{% endtrans %}
+        </button>
+
+        <button class="btn btn-outline-primary" form="chargegroup-form">
+            <i class="fe fe-check" title="{% trans %}Save{% endtrans %}"></i>
+            {% trans %}Save{% endtrans %}
+        </button>
+    </div>
+</nav>
+{% endblock %}
+
 {% block body %}
-    {{ form_start(form) }}
+    {{ form_start(form, { attr: { id: 'chargegroup-form' }}) }}
         {{ form_errors(form) }}
         <div class="row">
             <div class="col">
@@ -15,18 +31,5 @@
         </div>
 
         {{ form_row(form.charges) }}
-
-        <div class="text-end">
-            <button type="button" class="btn btn-secondary" data-action="click->form-collection#add">
-                <i class="fe fe-plus" title="{% trans %}Add{% endtrans %}"></i>
-                {% trans %}New charges{% endtrans %}
-            </button>
-
-            <button class="btn btn-primary">
-                <i class="fe fe-check" title="{% trans %}Save{% endtrans %}"></i>
-                {% trans %}Save{% endtrans %}
-            </button>
-        </div>
-
     {{ form_end(form) }}
 {% endblock %}
