@@ -19,7 +19,7 @@ class IncomeGroup extends ChargeGroup
     #[ORM\JoinColumn(nullable: false)]
     protected $account;
 
-    #[ORM\OneToMany(mappedBy: 'chargeGroup', targetEntity: Income::class, cascade: ['persist'])]
+    #[ORM\OneToMany(mappedBy: 'chargeGroup', targetEntity: Income::class, cascade: ['persist'], orphanRemoval: true)]
     #[Assert\Valid]
     private $charges;
 
