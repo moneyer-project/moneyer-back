@@ -58,8 +58,9 @@
                 <a class="btn btn-primary btn-edit"
                    data-action="click->modal#open"
                    data-modal-title-param="Edit"
+                   data-modal-target-param="chargesModal"
                    href="{{ path('app_account_charge_group', { chargeGroup: form.vars.value.id }) }}">
-                    <i class="fe fe-edit" title="Edit"></i>
+                    <i class="fe fe-pencil" title="Edit"></i>
                 </a>
             {% endif %}
             <button type="button"

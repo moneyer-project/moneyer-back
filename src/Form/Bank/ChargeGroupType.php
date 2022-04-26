@@ -45,7 +45,7 @@ class ChargeGroupType extends AbstractType
                 ],
                 'delete_empty' => function (Charge $charge = null) {
                     return null === $charge || (null === $charge->getName() && null === $charge->getAmount());
-                },
+                }
             ]);
     }
 }

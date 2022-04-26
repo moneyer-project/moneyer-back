@@ -1,4 +1,4 @@
-{% extends app.request.xmlHttpRequest ? 'base-connected-ajax.html.twig' : 'base-connected.html.twig' %}
+{% extends 'base-connected.html.twig' %}
 
 {% block title %}Account {{ account.name }}{% endblock %}
 
@@ -21,5 +21,6 @@
                 Save
             </button>
         </div>
+
     {{ form_end(form) }}
 {% endblock %}
