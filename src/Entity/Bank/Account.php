@@ -94,10 +94,11 @@ class Account
 
     public function addChargeGroup(ChargeGroup $chargeGroup): self
     {
-        switch (true) {
-            case $chargeGroup instanceof IncomeGroup: return $this->addIncomeGroup($chargeGroup);
-            case $chargeGroup instanceof ExpenseGroup: return $this->addExpenseGroup($chargeGroup);
-        }
+        return match (true) {
+            $chargeGroup instanceof IncomeGroup => $this->addIncomeGroup($chargeGroup),
+            $chargeGroup instanceof ExpenseGroup => $this->addExpenseGroup($chargeGroup),
+            default => $this,
+        };
     }
 
     /**
@@ -245,5 +246,10 @@ class Account
         }
 
         return $total;
+    }
+
+    public function __toString(): string
+    {
+        return $this->getName();
     }
 }

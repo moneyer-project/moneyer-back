@@ -50,39 +50,29 @@
     <div data-controller="charge-manager"
          data-charge-manager-year-value="{{ "now" | date('Y') }}"
          data-charge-manager-prototype-value="{{ form_row(form.vars.prototype)|e }}">
-        <div class="d-flex flex-row justify-content-center align-items-center">
-            <button type="button"
-                    class="btn btn-secondary"
-                    data-action="click->charge-manager#previous">
-                <i class="fe fe-arrow-left"></i>
-            </button>
-            <div class="p-2" data-charge-manager-target="year">
-                {{ "now" | date('Y') }}
+        <div class="d-flex flex-row justify-content-between align-items-center my-2">
+            <div class="d-inline-flex flex-row align-items-center">
+                <button type="button"
+                        class="btn btn-secondary"
+                        data-action="click->charge-manager#previous">
+                    <i class="fe fe-arrow-left"></i>
+                </button>
+                <div class="p-2" data-charge-manager-target="year">
+                    {{ "now" | date('Y') }}
+                </div>
+                <button type="button"
+                        class="btn btn-secondary"
+                        data-action="click->charge-manager#next">
+                    <i class="fe fe-arrow-right"></i>
+                </button>
             </div>
-            <button type="button"
-                    class="btn btn-secondary"
-                    data-action="click->charge-manager#next">
-                <i class="fe fe-arrow-right"></i>
-            </button>
-        </div>
-
-        <div class="mb-1">
-            <div class="row">
-                <div class="col-2">
-                    <strong>
-                        {% trans %}Date{% endtrans %}
-                    </strong>
-                </div>
-                <div class="col-5">
-                    <strong>
-                        {% trans %}Name{% endtrans %}
-                    </strong>
-                </div>
-                <div class="col-5">
-                    <strong>
-                        {% trans %}Amount{% endtrans %}
-                    </strong>
-                </div>
+            <div>
+                <button type="button"
+                        class="btn btn-secondary"
+                        data-action="click->charge-manager#remove">
+                    <i class="fe fe-random"></i>
+                    Distribution
+                </button>
             </div>
         </div>
 
@@ -95,21 +85,25 @@
 {% endblock %}
 
 {% block _charge_group_charges_entry_row %}
-    <li class="list-group-item list-group-item-action"
+    <li class="list-group-item list-group-item-action d-flex flex-row align-items-center"
          data-charge-manager-target="charge"
          data-key="{{ name }}"
          data-month="{{ form.vars.value is not null ? (form.vars.value.date | date('m')) : '__month__' }}"
          data-year="{{ form.vars.value is not null ? (form.vars.value.date | date('Y')) : '__year__' }}">
-        <div class="row">
-            <div class="col-2">
-                {{ form_row(form.date) }}
-            </div>
-            <div class="col-5">
-                {{ form_widget(form.name) }}
-            </div>
-            <div class="col-5">
-                {{ form_widget(form.amount) }}
-            </div>
+        <div class="me-3">
+            {{ form_row(form.checkbox) }}
+        </div>
+        <div class="me-3">
+            {{ form_row(form.date) }}
+        </div>
+        <div class="flex-fill me-2">
+            {{ form_widget(form.name) }}
+        </div>
+        <div class="flex-fill ms-2">
+            {{ form_widget(form.amount) }}
+        </div>
+        <div class="ms-3">
+            {{ form_widget(form.distribution) }}
         </div>
     </li>
 {% endblock %}

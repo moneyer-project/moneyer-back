@@ -1,0 +1,9 @@
+{% block bank_payment_distribution_widget %}
+    <div class="d-flex flex-row align-items-center">
+        <div class="mx-2 text-center" style="width: 80px;">
+            {% if value is not null %}
+                {{ value.type.value }}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
