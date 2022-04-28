@@ -8,7 +8,6 @@ use App\Entity\Bank\ChargeGroup;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\DataTransformer\DateTimeToStringTransformer;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -18,17 +17,16 @@ class ChargeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('checkbox', CheckboxType::class, [
-                'required' => false,
-                'label' => false,
-                'mapped' => false,
+            ->add('date', HiddenType::class, [
+                'block_prefix' => 'bank_charge_date',
             ])
-            ->add('date', HiddenType::class)
             ->add('name', null, [
                 'required' => false,
+                'block_prefix' => 'bank_charge_name',
             ])
             ->add('amount', null, [
                 'required' => false,
+                'block_prefix' => 'bank_charge_amount',
             ])
             ->add('distribution', PaymentDistributionType::class, [
                 'required' => false,
@@ -62,5 +60,10 @@ class ChargeType extends AbstractType
         $resolver->setRequired('account');
         $resolver->setAllowedTypes('account', Account::class);
         $resolver->setAllowedTypes('charge_group', [ChargeGroup::class, 'null']);
+    }
+
+    public function getBlockPrefix(): string
+    {
+        return 'bank_charge';
     }
 }

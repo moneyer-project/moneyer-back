@@ -1,0 +1,7 @@
+{% block payer_list_widget %}
+    {% if value is not null %}
+        {% for email in value %}
+            <input type="text" name="{{ full_name }}[]" value="{{ email }}" />
+        {% endfor %}
+    {% endif %}
+{% endblock %}

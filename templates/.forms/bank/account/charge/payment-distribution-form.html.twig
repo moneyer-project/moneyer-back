@@ -1,4 +1,12 @@
 {% block bank_payment_distribution_widget %}
+    {% if form.vars.mode == 'simple' %}
+        {{- block('bank_payment_distribution_simple_widget') -}}
+    {% else %}
+        {{- block('bank_payment_distribution_advanced_widget') -}}
+    {% endif %}
+{% endblock %}
+
+{% block bank_payment_distribution_simple_widget %}
     <div class="d-flex flex-row align-items-center">
         <div class="mx-2 text-left" style="min-width: 80px;">
             {{ form_widget(form.type) }}
@@ -7,10 +15,26 @@
     </div>
 {% endblock %}
 
-{% block payer_list_widget %}
-    {% if value is not null %}
-        {% for email in value %}
-            <input type="text" name="{{ full_name }}[]" value="{{ email }}" />
-        {% endfor %}
-    {% endif %}
+{% block bank_payment_distribution_advanced_widget %}
+    <div class="d-flex flex-column">
+        <div>
+            {{ form_row(form.type) }}
+        </div>
+        <div class="d-flex flex-row">
+            {{ form_row(form.date_debut) }}
+            {{ form_row(form.date_fin) }}
+        </div>
+        <div>
+            {{ form_label(form.search) }}
+            <div class="d-flex flex-row">
+                {{ form_widget(form.search) }}
+                <button class="btn btn-secondary ms-1">
+                    <i class="fe fe-plus" title="Add"></i>
+                </button>
+            </div>
+        </div>
+        <div>
+            {{ form_widget(form.payers) }}
+        </div>
+    </div>
 {% endblock %}

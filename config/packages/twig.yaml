@@ -8,6 +8,7 @@ twig:
         - '@form/bank/account/charge-groups-form.html.twig'
         - '@form/bank/account/charge-form.html.twig'
         - '@form/bank/account/charge/payment-distribution-form.html.twig'
+        - '@form/bank/account/charge/payer-list.form.html.twig'
 
 when@test:
     twig:

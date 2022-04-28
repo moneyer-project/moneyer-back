@@ -35,17 +35,12 @@ class ChargeGroupType extends AbstractType
     protected function addChargesField(FormBuilderInterface $builder, array $options, string $entryType): void
     {
         $builder
-            ->add('charges', CollectionType::class, [
+            ->add('charges', ChargeCollectionType::class, [
                 'entry_type' => $entryType,
-                'allow_add' => true,
-                'allow_delete' => true,
                 'entry_options' => [
                     'account' => $options['account'],
                     'charge_group' => $builder->getData(),
                 ],
-                'delete_empty' => function (Charge $charge = null) {
-                    return null === $charge || (null === $charge->getName() && null === $charge->getAmount());
-                }
             ]);
     }
 }

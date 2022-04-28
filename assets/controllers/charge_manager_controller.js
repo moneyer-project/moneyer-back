@@ -1,17 +1,22 @@
 import { Controller } from '@hotwired/stimulus'
+import { Modal } from 'bootstrap'
+import KeyHelper from "../js/helpers/key-helper";
 
 export default class extends Controller {
 
-    static targets = [ "container", "year", "charge" ]
+    static targets = [ "container", "year", "charge", "distributionModal"]
 
     static values = {
         year: Number,
         prototype: String,
     }
 
+    distributionModal = null;
+
     connect() {
         this.yearTarget.textContent = this.yearValue;
         this.chargesRender(this.yearValue);
+        this.distributionModal = new Modal(this.distributionModalTarget, {});
     }
 
     previous() {
@@ -52,8 +57,10 @@ export default class extends Controller {
             if (chargeTargetOfMonth.length === 0) {
                 var widget = document.createElement('div');
 
+                const key = KeyHelper.min(this.chargeTargets, charge => parseInt(charge.dataset.key));
+
                 widget.innerHTML = this.prototypeValue
-                    .replace(/__name__/g, this.getMinKey())
+                    .replace(/__name__/g, key)
                     .replace(/__year__/g, year)
                     .replace(/__month__/g, month.toString().padStart(2, '0'))
                     .replace(/__date__/g, year + '-' + month.toString().padStart(2, '0') + '-01 00:00:00')
@@ -85,15 +92,7 @@ export default class extends Controller {
         }
     }
 
-    getMinKey() {
-        const keys = this.chargeTargets.map(charge => parseInt(charge.dataset.key));
-        let i = 0;
-        while (true) {
-            if (!keys.includes(i)) {
-                return i;
-            }
-
-            i++;
-        }
+    openDistributionModal() {
+        this.distributionModal.show();
     }
 }
