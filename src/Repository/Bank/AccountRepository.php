@@ -84,15 +84,13 @@ class AccountRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    /*
-    public function findOneBySomeField($value): ?Account
+    public function findOneByEmail(string $email): ?Account
     {
         return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
+            ->join('a.user', 'u')
+            ->andWhere('u.email LIKE :email')
+            ->setParameter('email', $email)
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
     }
-    */
 }

@@ -19,6 +19,7 @@ class ChargeType extends AbstractType
     {
         $builder
             ->add('checkbox', CheckboxType::class, [
+                'required' => false,
                 'label' => false,
                 'mapped' => false,
             ])
