@@ -28,14 +28,12 @@ class PaymentDistributionType extends AbstractType
                 'class' => DistributionType::class,
                 'required' => false,
             ])
-            ->add('payers', PayerListType::class);
+            ->add('payers', PayerListType::class, [
+                'allow_search' => $options['mode'] === self::MODE_ADVANCED,
+            ]);
 
         if ($options['mode'] === self::MODE_ADVANCED) {
             $builder
-                ->add('search', SearchType::class, [
-                    'mapped' => false,
-                    'required' => false,
-                ])
                 ->add('date_debut', DateType::class, [
                     'mapped' => false,
                     'required' => false,

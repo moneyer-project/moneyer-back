@@ -1,7 +1,34 @@
 {% block payer_list_widget %}
-    {% if value is not null %}
-        {% for email in value %}
-            <input type="text" name="{{ full_name }}[]" value="{{ email }}" />
-        {% endfor %}
+    {% if form.vars.allow_search %}
+        {{- block('payer_list_with_search_widget') -}}
+    {% else %}
+        {{- block('payer_list_without_search_widget') -}}
     {% endif %}
+{% endblock %}
+
+{% block payer_list_with_search_widget %}
+    <div data-controller="payer-list">
+        {{ form_label(form.vars.search) }}
+        <div class="d-flex flex-row">
+            {{ form_widget(form.vars.search) }}
+            <button type="button"
+                    class="btn btn-secondary ms-1"
+                    data-action="click->payer-list#addPayer">
+                <i class="fe fe-plus" title="Add"></i>
+            </button>
+        </div>
+        <ul class="list-group" data-payer-list-target="container">
+            {% for field in form %}
+                {{ form_widget(field) }}
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
+
+{% block payer_list_without_search_widget %}
+    <div data-prototype="{{ form_widget(form.vars.prototype) | e }}">
+        {% for field in form %}
+            {{ form_widget(field) }}
+        {% endfor %}
+    </div>
 {% endblock %}

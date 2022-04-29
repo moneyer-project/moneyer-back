@@ -15,7 +15,7 @@ class ChargeCollectionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $prototype = $builder->create('distribution', PaymentDistributionType::class, [
-            'mode' => PaymentDistributionType::MODE_ADVANCED
+            'mode' => PaymentDistributionType::MODE_ADVANCED,
         ]);
 
         $builder->setAttribute('distribution', $prototype->getForm());
