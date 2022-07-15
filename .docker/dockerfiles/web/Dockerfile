@@ -18,7 +18,15 @@ RUN apt-get install -y \
         libzip-dev \
         graphviz
 
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN if [ ${USER_ID:-0} -ne 0 ] && [ ${GROUP_ID:-0} -ne 0 ]; then \
+    userdel -f www-data &&\
+    if getent group www-data ; then groupdel www-data; fi &&\
+    groupadd -g ${GROUP_ID} www-data &&\
+    useradd -l -u ${USER_ID} -g www-data www-data &&\
+    install -d -m 0755 -o www-data -g www-data /home/www-data &&\
+    chown --changes --silent --no-dereference --recursive --from=33:33 ${USER_ID}:${GROUP_ID} \
+        /home/www-data \
+;fi
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -34,3 +42,7 @@ COPY conf/apache.conf /etc/apache2/conf-available/app.conf
 COPY conf/php.ini /usr/local/etc/php/conf.d/app.ini
 
 RUN a2enmod rewrite remoteip && a2enconf app
+
+USER www-data
+
+COPY --from=composer:2.3.9 /usr/bin/composer /usr/local/bin/composer
