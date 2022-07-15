@@ -1,4 +1,4 @@
-version: '3.0'
+version: "3.9"
 services:
     database:
         image: mysql:5.7
@@ -12,7 +12,11 @@ services:
             - "MYSQL_DATABASE=${BDD_MYSQL_DATABASE}"
     web:
         image: gjean76/php-symfony:8.1-apache
-        build: ./dockerfiles/web
+        build:
+            context: ./dockerfiles/web
+            args:
+                USER_ID: ${USER_ID:-0}
+                GROUP_ID: ${GROUP_ID:-0}
         volumes:
             - ${SOURCE_ROOT_FOLDER}:/app
         depends_on:

@@ -1,4 +1,4 @@
-version: '3.0'
+version: "3.9"
 services:
     database:
         labels:
@@ -16,19 +16,11 @@ services:
             - traefik.http.routers.moneyer_http.rule=Host(`moneyer.gwennael-jean.ovh`)
             - traefik.http.routers.moneyer_http.entryPoints=web
             - traefik.docker.network=proxy
-        depends_on:
-            - database
-            - smtp
         networks:
             - default
             - proxy
 
     phpmyadmin:
-        image: phpmyadmin/phpmyadmin
-        depends_on:
-            - database
-        environment:
-            - PMA_HOST=database
         labels:
             - traefik.enable=true
             - traefik.http.routers.moneyer_phpmyadmin.rule=Host(`phpmyadmin.moneyer.gwennael-jean.ovh`)
@@ -39,8 +31,6 @@ services:
             - proxy
 
     smtp:
-        image: djfarrelly/maildev:0.13.4
-        restart: always
         labels:
             - traefik.enable=true
             - traefik.http.routers.moneyer_maildev.rule=Host(`maildev.moneyer.gwennael-jean.ovh`)
