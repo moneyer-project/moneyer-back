@@ -15,6 +15,9 @@ services:
         build: ./dockerfiles/web
         volumes:
             - ${SOURCE_ROOT_FOLDER}:/app
+        depends_on:
+            - database
+            - smtp
 
     phpmyadmin:
         image: phpmyadmin/phpmyadmin

@@ -12,24 +12,14 @@ services:
             - traefik.http.routers.moneyer_https.entryPoints=websecure
             - traefik.http.routers.moneyer_http.rule=Host(`moneyer.local`)
             - traefik.http.routers.moneyer_http.entryPoints=web
-        depends_on:
-            - database
-            - smtp
 
     phpmyadmin:
-        image: phpmyadmin/phpmyadmin
-        depends_on:
-            - database
-        environment:
-            - PMA_HOST=database
         labels:
             - traefik.enable=true
             - traefik.http.routers.moneyer_phpmyadmin.rule=Host(`phpmyadmin.moneyer.local`)
             - traefik.http.routers.moneyer_phpmyadmin.entryPoints=web
 
     smtp:
-        image: djfarrelly/maildev:0.13.4
-        restart: always
         labels:
             - traefik.enable=true
             - traefik.http.routers.moneyer_maildev.rule=Host(`maildev.moneyer.local`)
